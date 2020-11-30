@@ -65,5 +65,3 @@ public class Canvas extends Container {
         }
     }
 }
-
-
