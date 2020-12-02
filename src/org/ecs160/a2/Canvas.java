@@ -13,7 +13,7 @@ public class Canvas extends Container {
     public Canvas() {
         super();
         getStyle().setBgTransparency(255);
-        getStyle().setBgColor(0x99cccc);
+        getStyle().setBgColor(0x99CCCC);
         setScrollableX(true);
         setScrollableY(true);
         setDropTarget(true);
