@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<resource majorVersion="1" minorVersion="11" useXmlUI="false">
+    <image name="and.png" type="multi"  />
+    <image name="android-icon.png" type="multi"  />
+    <image name="apple-icon.png" type="multi"  />
+    <image name="duke-no-logos.png" type="multi"  />
+    <image name="nand.png" type="multi"  />
+    <image name="nor.png" type="multi"  />
+    <image name="not.png" type="multi"  />
+    <image name="or.png" type="multi"  />
+    <image name="power.jpg" type="multi"  />
+    <theme name="Theme">
+        <val key="@includeNativeBool" value="true" />
+        <val key="GetStarted.align" value="4" />
+        <val key="GetStarted.bgColor" value="339900" />
+        <val key="GetStarted.fgColor" value="ffffff" />
+        <font key="GetStarted.font" type="ttf" face="0" style="0" size="0" name="native:MainLight" family="native:MainLight" sizeSettings="3" actualSize="2.5" />
+        <val key="GetStarted.padUnit" value="2,2,2,2" />
+        <val key="GetStarted.padding" value="1.0,1.0,1.0,1.0" />
+        <val key="GetStarted.press#align" value="4" />
+        <val key="GetStarted.press#bgColor" value="339900" />
+        <val key="GetStarted.press#fgColor" value="ffffff" />
+        <val key="GetStarted.press#padUnit" value="2,2,2,2" />
+        <val key="GetStarted.press#padding" value="1.0,1.0,1.0,1.0" />
+        <val key="GetStarted.press#transparency" value="255" />
+        <val key="GetStarted.sel#align" value="4" />
+        <val key="GetStarted.sel#bgColor" value="339900" />
+        <val key="GetStarted.sel#fgColor" value="ffffff" />
+        <val key="GetStarted.sel#padUnit" value="2,2,2,2" />
+        <val key="GetStarted.sel#padding" value="1.0,1.0,1.0,1.0" />
+        <val key="GetStarted.sel#transparency" value="255" />
+        <val key="GetStarted.transparency" value="255" />
+    </theme>
+    <image name="windows-icon.png" type="multi"  />
+    <image name="xnor.jpg" type="multi"  />
+    <image name="xor.png" type="multi"  />
+</resource>
