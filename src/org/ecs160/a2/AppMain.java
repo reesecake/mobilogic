@@ -27,7 +27,7 @@ import com.codename1.io.NetworkEvent;
 public class AppMain {
 
     private Form current;
-    private Resources theme;
+    public static Resources theme;
     private CanvasContainer canvasContainer;
 
     public void init(Object context) {
