@@ -65,9 +65,12 @@ public class AppMain {
         main.add(canvasContainer);
 
         Button clear = new Button("Clear");
+        Button delete = new Button("Delete");
         clear.addActionListener((evt -> canvasContainer.clearCanvas()));
+        // TODO make delete do something
+        delete.addActionListener((evt -> {}));
 
-        SelectorPanel selectorPanel = new SelectorPanel(clear);
+        SelectorPanel selectorPanel = new SelectorPanel(clear, delete);
         main.add(selectorPanel);
         main.show();
     }
