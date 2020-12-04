@@ -30,6 +30,12 @@ public class CanvasContainer extends Form {
         return canvas;
     }
 
+    public void clearCanvas() {
+        removeComponent(canvas);
+        canvas = new Canvas();
+        add(canvas);
+    }
+
     @Override
     public Dimension calcPreferredSize() {
         return new Dimension(width,height);

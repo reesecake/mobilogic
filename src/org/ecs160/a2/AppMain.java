@@ -63,8 +63,12 @@ public class AppMain {
         main.setScrollableY(false);
         canvasContainer = new CanvasContainer();
         main.add(canvasContainer);
-        SelectorPanel gateSelectPlaceholder = new SelectorPanel();
-        main.add(gateSelectPlaceholder);
+
+        Button clear = new Button("Clear");
+        clear.addActionListener((evt -> canvasContainer.clearCanvas()));
+
+        SelectorPanel selectorPanel = new SelectorPanel(clear);
+        main.add(selectorPanel);
         main.show();
     }
 
