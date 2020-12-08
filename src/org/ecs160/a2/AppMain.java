@@ -58,7 +58,7 @@ public class AppMain {
             current.show();
             return;
         }
-
+      
         Form main = new Form("MobiLogic", BoxLayout.y());
         main.setScrollableY(false);
         canvasContainer = new CanvasContainer();
@@ -71,10 +71,9 @@ public class AppMain {
         delete.addActionListener((evt -> {}));
 
         SelectorPanel selectorPanel = new SelectorPanel(clear, delete);
-        selectorPanel.setSafeArea(true);
         main.add(selectorPanel);
         main.show();
-
+      
         // from compenent_struct merge:
         // DEBUG - Circuit
         Circuit mainCircuit = new Circuit();
