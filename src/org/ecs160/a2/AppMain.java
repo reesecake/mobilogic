@@ -71,6 +71,7 @@ public class AppMain {
         delete.addActionListener((evt -> {}));
 
         SelectorPanel selectorPanel = new SelectorPanel(clear, delete);
+        selectorPanel.setSafeArea(true);
         main.add(selectorPanel);
         main.show();
     }

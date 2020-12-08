@@ -4,7 +4,7 @@ import com.codename1.charts.util.ColorUtil;
 import com.codename1.ui.*;
 import com.codename1.ui.layouts.BoxLayout;
 
-public class SelectorPanel extends Form {
+public class SelectorPanel extends Container {
 
     private static Button clear;
     private static Button delete;
@@ -12,7 +12,6 @@ public class SelectorPanel extends Form {
 
     public SelectorPanel(Button clr, Button dlt) {
         super(BoxLayout.y());
-        setScrollable(false);
 
         clear = clr;
         delete = dlt;
