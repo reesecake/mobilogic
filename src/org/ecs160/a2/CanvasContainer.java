@@ -20,8 +20,9 @@ public class CanvasContainer extends Form {
         setScrollableX(false);
         setScrollableY(false);
         width = Display.getInstance().getDisplayWidth();
-        // Height of the container is 75% of the display height, with the rest reserved for the gate selection view
-        height = Math.toIntExact(Math.round(Display.getInstance().getDisplayHeight() * 0.75));
+        // Height of the container is 76% of the display height, with the rest reserved for the gate selection view
+        // changed to 76% because it caused an overlap on the SelectorPanel
+        height = Math.toIntExact(Math.round(Display.getInstance().getDisplayHeight() * 0.76));
         canvas = new Canvas();
         add(canvas);
     }
