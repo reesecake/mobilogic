@@ -43,7 +43,7 @@ public class Canvas extends Container {
         wires = new ArrayList<>();
     }
 
-    private void addGate(int idx, Gate gate) {
+    public void addGate(int idx, Gate gate) {
         gate.addLongPressListener(evt -> {
             Component dest = getComponentAt(evt.getX(), evt.getY());
             if(!(dest instanceof Gate)) return;
