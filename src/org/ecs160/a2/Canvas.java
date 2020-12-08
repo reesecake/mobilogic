@@ -2,7 +2,10 @@ package org.ecs160.a2;
 
 import com.codename1.ui.Component;
 import com.codename1.ui.Container;
+import com.codename1.ui.Graphics;
 import com.codename1.ui.geom.Dimension;
+
+import java.util.ArrayList;
 
 
 /** Canvas
@@ -10,6 +13,10 @@ import com.codename1.ui.geom.Dimension;
  *  By default the canvas is 10000x10000px large and supports panning around.
  */
 public class Canvas extends Container {
+    private Boolean holdingWire = false;
+    private Gate selectedWireGate;
+    private ArrayList<Wire> wires;
+
     public Canvas() {
         super();
         getStyle().setBgTransparency(255);
@@ -22,16 +29,41 @@ public class Canvas extends Container {
         setScrollX(5000);
         setScrollY(5000);
 
-        addComponent(0, new Gate(GateType.POWER));
-        addComponent(1, new Gate(GateType.AND));
-        addComponent(2, new Gate(GateType.OR));
-        addComponent(3, new Gate(GateType.XOR));
-        addComponent(4, new Gate(GateType.NOT));
-        addComponent(5, new Gate(GateType.NAND));
-        addComponent(6, new Gate(GateType.NOR));
-        addComponent(7, new Gate(GateType.XNOR));
+        addGate(0, new Gate(GateType.POWER));
+        addGate(1, new Gate(GateType.AND));
+        addGate(2, new Gate(GateType.OR));
+        addGate(3, new Gate(GateType.XOR));
+        addGate(4, new Gate(GateType.NOT));
+        addGate(5, new Gate(GateType.NAND));
+        addGate(6, new Gate(GateType.NOR));
+        addGate(7, new Gate(GateType.XNOR));
 
         createCells();
+
+        wires = new ArrayList<>();
+    }
+
+    private void addGate(int idx, Gate gate) {
+        gate.addLongPressListener(evt -> {
+            Component dest = getComponentAt(evt.getX(), evt.getY());
+            if(!(dest instanceof Gate)) return;
+            if(holdingWire) {
+                // Are we trying to connect to the same component? Don't do that.
+                if(wireExists(selectedWireGate, (Gate) dest)) return;
+
+                // Create wire connection between two components here.
+                selectedWireGate.addConnection((Gate) dest);
+                ((Gate) dest).addConnection(selectedWireGate);
+                wires.add(new Wire(selectedWireGate, (Gate) dest));
+                repaint();
+                holdingWire = false;
+            } else {
+                // Pick up the wire.
+                selectedWireGate = (Gate) dest;
+                holdingWire = true;
+            }
+        });
+        addComponent(idx, gate);
     }
 
     // Create the grid of cells
@@ -39,6 +71,20 @@ public class Canvas extends Container {
         for (int i = 0; i < 10000; i++) {
             addComponent(new CanvasCell());
         }
+    }
+
+    @Override
+    public void paint(Graphics g) {
+        super.paint(g);
+        wires.forEach(wire -> {
+            int[] coords = wire.getCoords();
+            if(wire.getPower()) {
+                g.setColor(0x00ff00);
+            } else {
+                g.setColor(0x0000ff);
+            }
+            g.drawLine(coords[0], coords[1], coords[2], coords[3]);
+        });
     }
 
     @Override
@@ -58,6 +104,13 @@ public class Canvas extends Container {
             addComponent(i, new CanvasCell());
         }
         animateLayout(1);
+    }
+
+    private Boolean wireExists(Gate i, Gate j) {
+        for(Wire wire : wires) {
+            if(wire.isConnected(i, j)) return true;
+        }
+        return false;
     }
 
     /** CanvasCell

@@ -4,7 +4,10 @@ import com.codename1.ui.Component;
 import com.codename1.ui.Image;
 import com.codename1.ui.geom.Dimension;
 
+import java.util.ArrayList;
+
 public class Gate extends Component {
+    private ArrayList<Gate> connections;
 
     public Gate(GateType type) {
         super();
@@ -41,6 +44,8 @@ public class Gate extends Component {
         getStyle().setBgTransparency(255);
         getStyle().setBgColor(0x0000ff);
         setDraggable(true);
+
+        connections = new ArrayList<>();
     }
 
     // We want each gate to be 100x100 (same size as cells)
@@ -48,4 +53,14 @@ public class Gate extends Component {
     public Dimension calcPreferredSize() {
         return new Dimension(100,100);
     }
+
+    // addConnection - Logic for determining output can go here.
+    public void addConnection(Gate gate) {
+        connections.add(gate);
+    }
+
+    public void removeConnection(Gate gate) {
+
+    }
+
 }
