@@ -1,20 +1,25 @@
 package org.ecs160.a2;
 
-import com.codename1.charts.util.ColorUtil;
 import com.codename1.ui.*;
 import com.codename1.ui.layouts.BoxLayout;
 
 public class SelectorPanel extends Container {
 
+    private static CanvasContainer canvasContainer;
+
     private static Button clear;
     private static Button delete;
     private static CheckBox edit;
 
-    public SelectorPanel(Button clr, Button dlt) {
+    public SelectorPanel(CanvasContainer canvasCon) {
         super(BoxLayout.y());
+        canvasContainer = canvasCon;
 
-        clear = clr;
-        delete = dlt;
+        clear = new Button("Clear");
+        delete = new Button("Delete");
+        clear.addActionListener((evt -> canvasContainer.clearCanvas()));
+        // TODO make delete do something
+        delete.addActionListener((evt -> {}));
         edit = CheckBox.createToggle("Edit");
 
         getStyle().setBgTransparency(255);
@@ -22,7 +27,10 @@ public class SelectorPanel extends Container {
 
         addComponent(new PanelToolBar());
 
-        addComponent(new GateList());
+        GateList gateList = new GateList();
+        addComponent(gateList);
+
+        addGateListListeners(gateList);
     }
 
     private static class PanelToolBar extends Container {
@@ -41,7 +49,8 @@ public class SelectorPanel extends Container {
             super(BoxLayout.x());
             setScrollableX(true);
 
-            addComponent(new SelectorGate(GateType.POWER));
+            SelectorGate selPower = new SelectorGate(GateType.POWER);
+            addComponent(selPower);
             addComponent(new SelectorGate(GateType.AND));
             addComponent(new SelectorGate(GateType.OR));
             addComponent(new SelectorGate(GateType.XOR));
@@ -49,6 +58,14 @@ public class SelectorPanel extends Container {
             addComponent(new SelectorGate(GateType.NAND));
             addComponent(new SelectorGate(GateType.NOR));
             addComponent(new SelectorGate(GateType.XNOR));
+        }
+    }
+
+    private void addGateListListeners(GateList gateList) {
+        for (Component gate : gateList) {
+            if (gate instanceof SelectorGate) {
+                gate.addPointerPressedListener(evt -> canvasContainer.addNewGate(((SelectorGate) gate).type));
+            }
         }
     }
 }

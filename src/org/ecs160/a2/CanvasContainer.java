@@ -31,6 +31,13 @@ public class CanvasContainer extends Form {
         return canvas;
     }
 
+    public void addNewGate(GateType type) {
+        canvas.removeComponent(canvas.getComponentAt(0));
+
+        Gate newGate = new Gate(type);
+        canvas.addGate(0, newGate);
+    }
+
     public void clearCanvas() {
         removeComponent(canvas);
         canvas = new Canvas();
