@@ -58,7 +58,7 @@ public class AppMain {
             current.show();
             return;
         }
-
+      
         Form main = new Form("MobiLogic", BoxLayout.y());
         main.setScrollableY(false);
         canvasContainer = new CanvasContainer();
@@ -71,9 +71,43 @@ public class AppMain {
         delete.addActionListener((evt -> {}));
 
         SelectorPanel selectorPanel = new SelectorPanel(clear, delete);
-        selectorPanel.setSafeArea(true);
         main.add(selectorPanel);
         main.show();
+      
+        // from compenent_struct merge:
+        // DEBUG - Circuit
+        Circuit mainCircuit = new Circuit();
+        /* temporary design
+        <off/off>==1_____3_____
+        <on/off>==2____/
+         */
+        LogicComponent gate1 = new LogicComponent(2);
+        LogicComponent gate2 = new LogicComponent(2);
+        LogicComponent gate3 = new LogicComponent(2);
+        gate1.name = "GATE1";
+        gate2.name = "GATE2";
+        gate3.name = "GATE3";
+
+        // Add Three Standalone Gates
+        mainCircuit.AddComponent(gate1);
+        mainCircuit.AddComponent(gate2);
+        mainCircuit.AddComponent(gate3);
+        // Connect Gate 1 to Gate 3
+        gate1.ConnectToGate(gate3,0);
+        mainCircuit.SetComponent(gate1);
+        mainCircuit.SetComponent(gate3);
+
+        //Update Circuit
+        mainCircuit.Update();
+
+        // Toggle Gate2 Input
+        // Connect Gate 2 to Gate 3
+        gate2.SetInput(0,true);
+        gate2.ConnectToGate(gate3,1);
+        mainCircuit.SetComponent(gate2);
+        mainCircuit.SetComponent(gate3);
+        //Update Circuit
+        mainCircuit.Update();
     }
 
     public void stop() {
