@@ -79,6 +79,10 @@ public class Canvas extends Container {
         }
     }
 
+    public void createSingleCell(int index) {
+        addComponent(index, new CanvasCell());
+    }
+
     @Override
     public void paint(Graphics g) {
         super.paint(g);
