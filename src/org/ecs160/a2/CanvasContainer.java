@@ -48,6 +48,7 @@ public class CanvasContainer extends Form {
         removeComponent(canvas);
         canvas = new Canvas();
         add(canvas);
+        revalidate();
     }
 
     @Override
