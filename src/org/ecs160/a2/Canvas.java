@@ -43,6 +43,12 @@ public class Canvas extends Container {
         wires = new ArrayList<>();
     }
 
+    public Component getAddLocation() {
+        // x y coordinates are located at top-left of physical device
+        // adjust x y to center of display
+        return getClosestComponentTo(getX() + 600, getY() + 1100);
+    }
+
     public void addGate(int idx, Gate gate) {
         gate.addLongPressListener(evt -> {
             Component dest = getComponentAt(evt.getX(), evt.getY());

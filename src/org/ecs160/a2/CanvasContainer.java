@@ -1,5 +1,6 @@
 package org.ecs160.a2;
 
+import com.codename1.ui.Component;
 import com.codename1.ui.Display;
 import com.codename1.ui.Form;
 import com.codename1.ui.geom.Dimension;
@@ -32,10 +33,15 @@ public class CanvasContainer extends Form {
     }
 
     public void addNewGate(GateType type) {
-        canvas.removeComponent(canvas.getComponentAt(0));
+        Component dest = canvas.getAddLocation();
+        int destIdx = canvas.getComponentIndex(dest);
+        // for debugging:
+        // System.out.println(destIdx);
+
+        canvas.removeComponent(dest);
 
         Gate newGate = new Gate(type);
-        canvas.addGate(0, newGate);
+        canvas.addGate(destIdx, newGate);
     }
 
     public void clearCanvas() {
