@@ -110,7 +110,7 @@ public class Gate extends Component {
     public void removeInput(Gate gate) { inputs.remove(gate); }
     public void removeOutput(Gate gate) { outputs.remove(gate); }
 
-    void makeDialog() {
+    public void makeDialog() {
         InteractionDialog dlg = new InteractionDialog(type.toString());
         dlg.setLayout(new BorderLayout());
         dlg.setDisposeWhenPointerOutOfBounds(true);
