@@ -14,6 +14,7 @@ public class GateAND extends LogicComponent {
         boolean x = GetInputStates().get(0);
         boolean y = GetInputStates().get(1);
         x &= y;
+        SetOutput(x);
         System.out.printf("AND of X: %s%n", x);
 
     }

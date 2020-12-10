@@ -1,4 +1,5 @@
 package org.ecs160.a2;
+import org.ecs160.a2.Gates.*;
 
 import com.codename1.components.InteractionDialog;
 import com.codename1.ui.*;
@@ -52,7 +53,11 @@ public class Gate extends Component {
                 break;
             case POWER:
                 img = "power.jpg";
-               // Component = new GatePOWER(1);
+                component = new GatePower();
+                break;
+            case GROUND:
+                img = "power.jpg";
+                component = new GateGround();
                 break;
         }
         Image im = AppMain.theme.getImage(img);

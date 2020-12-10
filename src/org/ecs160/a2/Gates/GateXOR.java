@@ -20,6 +20,7 @@ public class GateXOR extends LogicComponent {
         else if(x == true && y == false || x == false && y == true){
             x = true;
         }
+        SetOutput(x);
         System.out.println("XOR:  " + x);
 
     }

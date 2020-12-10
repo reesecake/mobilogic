@@ -68,6 +68,22 @@ public class LogicComponent{
     public ArrayList<IO_Component> GetInputs(){
         return Inputs;
     }
+    public IO_Component GetOutput(){
+        return Output;
+    }
+
+    public int GetIndexFirstAvailableInput(){
+        // Returns index of first Not Connected Input
+        // -1 if none
+        int i = 0;
+        for( ; i < Inputs.size() ; i++){
+            if(Inputs.get(i).isConnected() == false){
+                // Found first available input
+                return i;
+            }
+        }
+        return -1;
+    }
 
     public void UpdateOutput(){
         // To be overrided by extended components

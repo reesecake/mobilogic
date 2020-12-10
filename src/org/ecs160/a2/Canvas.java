@@ -40,6 +40,7 @@ public class Canvas extends Container {
     }
 
     public void setHoldingWire(Boolean wire) {
+        System.out.println("Wire holding: "+ wire);
         holdingWire = wire;
     }
 
@@ -52,22 +53,37 @@ public class Canvas extends Container {
     public void addGate(int idx, Gate gate) {
         gate.addLongPressListener(evt -> {
             Component dest = getComponentAt(evt.getX(), evt.getY());
-            if(!(dest instanceof Gate)) return;
+            if(!(dest instanceof Gate)) {
+                holdingWire = false;
+                return;
+            }
             if(holdingWire) {
                 // Are we trying to connect to the same component? Don't do that.
-                if(wireExists(selectedWireGate, (Gate) dest)) return;
+                if(wireExists(selectedWireGate, (Gate) dest)) {
+                    System.out.println("Can't connect to same gate!");
+                    return;
+                }
 
                 // Create wire connection between two components here.
                 // How do we determine if input or output?
+
                 selectedWireGate.addOutput((Gate) dest);
                 ((Gate) dest).addInput(selectedWireGate);
-                wires.add(new Wire(selectedWireGate, (Gate) dest));
+
+                Wire newWire = new Wire(selectedWireGate, (Gate) dest);
+                circuit.AddComponent(newWire.getLogicalComponent());
+
+                wires.add(newWire);
+                circuit.Update();
+
                 repaint();
                 holdingWire = false;
+                System.out.println("Add Wire To: "+((Gate) dest).type.toString());
             } else {
                 // Pick up the wire.
                 selectedWireGate = (Gate) dest;
                 holdingWire = true;
+                System.out.println("Add Wire From: "+selectedWireGate.type.toString());
             }
         });
         // Canvas Visual Element
@@ -132,10 +148,11 @@ public class Canvas extends Container {
         ArrayList<Wire> newWires = new ArrayList<>();
 
         // Filtering...the Java way.
-        for(Wire wire : wires) {
-            if(!wire.isConnected(x)) newWires.add(wire);
+        for (Wire wire : wires) {
+            if (!wire.isConnected(x)) newWires.add(wire);
         }
         wires = newWires;
+    }
     public void deleteComponent(Component component) {
         removeComponent(component);
         if(component instanceof Gate){

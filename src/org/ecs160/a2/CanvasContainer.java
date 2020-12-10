@@ -38,8 +38,6 @@ public class CanvasContainer extends Form {
         // Canvas Section
         Component dest = canvas.getAddLocation();
         int destIdx = canvas.getComponentIndex(dest);
-        // for debugging:
-        // System.out.println(destIdx);
 
         // Remove Existing Component/Gate at destIdx. Fix shift-right bug.
         canvas.deleteComponent(dest);
