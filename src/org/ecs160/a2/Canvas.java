@@ -4,6 +4,7 @@ import com.codename1.ui.Component;
 import com.codename1.ui.Container;
 import com.codename1.ui.Graphics;
 import com.codename1.ui.geom.Dimension;
+import com.codename1.ui.plaf.Border;
 
 import java.util.ArrayList;
 
@@ -24,7 +25,7 @@ public class Canvas extends Container {
         circuit = new Circuit();
 
         getStyle().setBgTransparency(255);
-        getStyle().setBgColor(0x99CCCC);
+        getStyle().setBgColor(0xffffff);
         setScrollableX(true);
         setScrollableY(true);
         setDropTarget(true);
@@ -37,71 +38,6 @@ public class Canvas extends Container {
 
         wires = new ArrayList<>();
 
-    }
-
-    public void setHoldingWire(Boolean wire) {
-        System.out.println("Wire holding: "+ wire);
-        holdingWire = wire;
-    }
-
-    public Component getAddLocation() {
-        // x y coordinates are located at top-left of physical device
-        // adjust x y to center of display
-        return getClosestComponentTo(getX() + 600, getY() + 1100);
-    }
-
-    public void addGate(int idx, Gate gate) {
-        gate.addLongPressListener(evt -> {
-            Component dest = getComponentAt(evt.getX(), evt.getY());
-            if(!(dest instanceof Gate)) {
-                holdingWire = false;
-                return;
-            }
-            if(holdingWire) {
-                // Are we trying to connect to the same component? Don't do that.
-                if(wireExists(selectedWireGate, (Gate) dest)) {
-                    System.out.println("Can't connect to same gate!");
-                    return;
-                }
-
-                // Create wire connection between two components here.
-                // How do we determine if input or output?
-
-                selectedWireGate.addOutput((Gate) dest);
-                ((Gate) dest).addInput(selectedWireGate);
-
-                Wire newWire = new Wire(selectedWireGate, (Gate) dest);
-                circuit.AddComponent(newWire.getLogicalComponent());
-
-                wires.add(newWire);
-                circuit.Update();
-
-                repaint();
-                holdingWire = false;
-                System.out.println("Add Wire To: "+((Gate) dest).type.toString());
-            } else {
-                // Pick up the wire.
-                selectedWireGate = (Gate) dest;
-                holdingWire = true;
-                System.out.println("Add Wire From: "+selectedWireGate.type.toString());
-            }
-        });
-        // Canvas Visual Element
-        addComponent(idx, gate);
-        // Circuit Logical Element
-        LogicComponent component = gate.GetLogicalComponent();
-        circuit.AddComponent(component);
-    }
-
-    // Create the grid of cells
-    private void createCells() {
-        for (int i = 0; i < 10000; i++) {
-            addComponent(new CanvasCell());
-        }
-    }
-
-    public void createSingleCell(int index) {
-        addComponent(index, new CanvasCell());
     }
 
     @Override
@@ -137,11 +73,85 @@ public class Canvas extends Container {
         animateLayout(1);
     }
 
+    public void setHoldingWire(Boolean wire) {
+        System.out.println("Wire holding: "+ wire);
+        holdingWire = wire;
+    }
+
+    public Component getAddLocation() {
+        // x y coordinates are located at top-left of physical device
+        // adjust x y to center of display
+        return getClosestComponentTo(getX() + 600, getY() + 1100);
+    }
+
+    public void addGate(int idx, Gate gate) {
+        gate.addLongPressListener(evt -> {
+            Component dest = getComponentAt(evt.getX(), evt.getY());
+            if(!(dest instanceof Gate)) {
+                holdingWire = false;
+                return;
+            }
+            if(holdingWire) {
+                holdingWire = false;
+
+                selectedWireGate.getUnselectedStyle().setBorder(null);
+                selectedWireGate.getSelectedStyle().setBorder(null);
+
+                // Remove wire if attempting to wire components already together
+                if(wireExists(selectedWireGate, (Gate) dest)) {
+                    removeWire(selectedWireGate, (Gate) dest);
+                    repaint();
+                    return;
+                };
+
+                Wire newWire = new Wire(selectedWireGate, (Gate) dest);
+                circuit.AddComponent(newWire.getLogicalComponent());
+
+                wires.add(newWire);
+                circuit.Update();
+            } else {
+                // Pick up the wire.
+                selectedWireGate = (Gate) dest;
+                selectedWireGate.getUnselectedStyle().setBorder(Border.createLineBorder(2));
+                selectedWireGate.getSelectedStyle().setBorder(Border.createLineBorder(2));
+                holdingWire = true;
+                System.out.println("Add Wire From: "+selectedWireGate.type.toString());
+            }
+            repaint();
+        });
+        // Canvas Visual Element
+        addComponent(idx, gate);
+        // Circuit Logical Element
+        LogicComponent component = gate.GetLogicalComponent();
+        circuit.AddComponent(component);
+    }
+
+    // Create the grid of cells
+    private void createCells() {
+        for (int i = 0; i < 10000; i++) {
+            addComponent(new CanvasCell());
+        }
+    }
+
+    public void createSingleCell(int index) {
+        addComponent(index, new CanvasCell());
+    }
+
     private Boolean wireExists(Gate i, Gate j) {
         for(Wire wire : wires) {
             if(wire.isConnected(i, j)) return true;
         }
         return false;
+    }
+
+    public void removeWire(Gate i, Gate j) {
+        ArrayList<Wire> newWires = new ArrayList<>();
+
+        for(Wire wire : wires) {
+            if(!wire.isConnected(i, j)) newWires.add(wire);
+        }
+
+        wires = newWires;
     }
 
     public void removeAllWires(Gate x) {
