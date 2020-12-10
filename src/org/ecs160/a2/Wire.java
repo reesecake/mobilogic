@@ -15,6 +15,10 @@ public class Wire {
         return (g1 == gate1 && g2 == gate2) || (g1 == gate2 && g2 == gate1);
     }
 
+    public Boolean isConnected(Gate g) {
+        return g == gate1 || g == gate2;
+    }
+
     public Boolean getPower() {
         return powered;
     }

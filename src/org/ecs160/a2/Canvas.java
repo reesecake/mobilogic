@@ -43,6 +43,10 @@ public class Canvas extends Container {
         wires = new ArrayList<>();
     }
 
+    public void setHoldingWire(Boolean wire) {
+        holdingWire = wire;
+    }
+
     public Component getAddLocation() {
         // x y coordinates are located at top-left of physical device
         // adjust x y to center of display
@@ -58,8 +62,9 @@ public class Canvas extends Container {
                 if(wireExists(selectedWireGate, (Gate) dest)) return;
 
                 // Create wire connection between two components here.
-                selectedWireGate.addConnection((Gate) dest);
-                ((Gate) dest).addConnection(selectedWireGate);
+                // How do we determine if input or output?
+                selectedWireGate.addOutput((Gate) dest);
+                ((Gate) dest).addInput(selectedWireGate);
                 wires.add(new Wire(selectedWireGate, (Gate) dest));
                 repaint();
                 holdingWire = false;
@@ -121,6 +126,16 @@ public class Canvas extends Container {
             if(wire.isConnected(i, j)) return true;
         }
         return false;
+    }
+
+    public void removeAllWires(Gate x) {
+        ArrayList<Wire> newWires = new ArrayList<>();
+
+        // Filtering...the Java way.
+        for(Wire wire : wires) {
+            if(!wire.isConnected(x)) newWires.add(wire);
+        }
+        wires = newWires;
     }
 
     /** CanvasCell
