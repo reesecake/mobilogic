@@ -47,7 +47,7 @@ public class LogicComponent{
     public boolean GetOutputState(){
         return Output.getState();
     }
-    public ArrayList<Boolean> GetInputStates(int index, boolean newState){
+    public ArrayList<Boolean> GetInputStates(){
         ArrayList<Boolean> states = new ArrayList<>();
         for(int i = 0 ; i < numInputs; i++){
             states.add(Inputs.get(i).getState());
