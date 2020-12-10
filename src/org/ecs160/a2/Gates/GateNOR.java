@@ -15,6 +15,7 @@ public class GateNOR extends LogicComponent {
         boolean y = GetInputStates().get(1);
         x |= y;
         x = !x;
+        SetOutput(x);
         System.out.println("NOR:  " + x);
 
     }

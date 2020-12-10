@@ -19,6 +19,7 @@ public class GateXNOR extends LogicComponent {
         else if(x == true && y == false || x == false && y == true){
             x = false;
         }
+        SetOutput(x);
         System.out.println("XNOR:  " + x);
 
     }

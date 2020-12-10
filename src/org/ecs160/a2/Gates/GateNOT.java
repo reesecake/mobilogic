@@ -14,6 +14,7 @@ public class GateNOT extends LogicComponent {
     public void UpdateOutput(){
         boolean x = GetInputStates().get(0);
         x = !x;
+        SetOutput(x);
         System.out.println("NOT:  " + x);
 
     }

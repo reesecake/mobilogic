@@ -8,5 +8,6 @@ public enum GateType {
     NAND,
     NOR,
     XNOR,
-    POWER
+    POWER,
+    GROUND;
 }

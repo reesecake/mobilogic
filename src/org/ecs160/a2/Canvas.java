@@ -17,8 +17,12 @@ public class Canvas extends Container {
     private Gate selectedWireGate;
     private ArrayList<Wire> wires;
 
+    private Circuit circuit;
+
     public Canvas() {
         super();
+        circuit = new Circuit();
+
         getStyle().setBgTransparency(255);
         getStyle().setBgColor(0x99CCCC);
         setScrollableX(true);
@@ -29,21 +33,14 @@ public class Canvas extends Container {
         setScrollX(5000);
         setScrollY(5000);
 
-        addGate(0, new Gate(GateType.POWER));
-        addGate(1, new Gate(GateType.AND));
-        addGate(2, new Gate(GateType.OR));
-        addGate(3, new Gate(GateType.XOR));
-        addGate(4, new Gate(GateType.NOT));
-        addGate(5, new Gate(GateType.NAND));
-        addGate(6, new Gate(GateType.NOR));
-        addGate(7, new Gate(GateType.XNOR));
-
         createCells();
 
         wires = new ArrayList<>();
+
     }
 
     public void setHoldingWire(Boolean wire) {
+        System.out.println("Wire holding: "+ wire);
         holdingWire = wire;
     }
 
@@ -56,25 +53,44 @@ public class Canvas extends Container {
     public void addGate(int idx, Gate gate) {
         gate.addLongPressListener(evt -> {
             Component dest = getComponentAt(evt.getX(), evt.getY());
-            if(!(dest instanceof Gate)) return;
+            if(!(dest instanceof Gate)) {
+                holdingWire = false;
+                return;
+            }
             if(holdingWire) {
                 // Are we trying to connect to the same component? Don't do that.
-                if(wireExists(selectedWireGate, (Gate) dest)) return;
+                if(wireExists(selectedWireGate, (Gate) dest)) {
+                    System.out.println("Can't connect to same gate!");
+                    return;
+                }
 
                 // Create wire connection between two components here.
                 // How do we determine if input or output?
+
                 selectedWireGate.addOutput((Gate) dest);
                 ((Gate) dest).addInput(selectedWireGate);
-                wires.add(new Wire(selectedWireGate, (Gate) dest));
+
+                Wire newWire = new Wire(selectedWireGate, (Gate) dest);
+                circuit.AddComponent(newWire.getLogicalComponent());
+
+                wires.add(newWire);
+                circuit.Update();
+
                 repaint();
                 holdingWire = false;
+                System.out.println("Add Wire To: "+((Gate) dest).type.toString());
             } else {
                 // Pick up the wire.
                 selectedWireGate = (Gate) dest;
                 holdingWire = true;
+                System.out.println("Add Wire From: "+selectedWireGate.type.toString());
             }
         });
+        // Canvas Visual Element
         addComponent(idx, gate);
+        // Circuit Logical Element
+        LogicComponent component = gate.GetLogicalComponent();
+        circuit.AddComponent(component);
     }
 
     // Create the grid of cells
@@ -132,33 +148,29 @@ public class Canvas extends Container {
         ArrayList<Wire> newWires = new ArrayList<>();
 
         // Filtering...the Java way.
-        for(Wire wire : wires) {
-            if(!wire.isConnected(x)) newWires.add(wire);
+        for (Wire wire : wires) {
+            if (!wire.isConnected(x)) newWires.add(wire);
         }
         wires = newWires;
+    }
+    public void deleteComponent(Component component) {
+        removeComponent(component);
+        if(component instanceof Gate){
+            LogicComponent temp = ((Gate) component).GetLogicalComponent();
+            circuit.RemoveComponent(temp.GetID());
+        }
     }
 
     /** CanvasCell
      *  The individual cells that make up the canvas grid.
      */
     private class CanvasCell extends Component {
-        private Boolean isPressed = false;
-
         public CanvasCell() {
             super();
-            getStyle().setBgTransparency(255);
-            getStyle().setBgColor(0xffffff);
-
-            // Demo for turning background black on long press
-            addLongPressListener(evt -> {
-                if (!isPressed) {
-                    getUnselectedStyle().setBgColor(0x000000);
-                } else {
-                    getUnselectedStyle().setBgColor(0xffffff);
-                }
-                repaint();
-                isPressed = !isPressed;
-            });
+            getUnselectedStyle().setBgTransparency(255);
+            getUnselectedStyle().setBgColor(0xffffff);
+            getSelectedStyle().setBgTransparency(255);
+            getSelectedStyle().setBgColor(0xffffff);
         }
 
         // We want each cell to be 100x100
