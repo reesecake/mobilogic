@@ -142,23 +142,12 @@ public class Canvas extends Container {
      *  The individual cells that make up the canvas grid.
      */
     private class CanvasCell extends Component {
-        private Boolean isPressed = false;
-
         public CanvasCell() {
             super();
-            getStyle().setBgTransparency(255);
-            getStyle().setBgColor(0xffffff);
-
-            // Demo for turning background black on long press
-            addLongPressListener(evt -> {
-                if (!isPressed) {
-                    getUnselectedStyle().setBgColor(0x000000);
-                } else {
-                    getUnselectedStyle().setBgColor(0xffffff);
-                }
-                repaint();
-                isPressed = !isPressed;
-            });
+            getUnselectedStyle().setBgTransparency(255);
+            getUnselectedStyle().setBgColor(0xffffff);
+            getSelectedStyle().setBgTransparency(255);
+            getSelectedStyle().setBgColor(0xffffff);
         }
 
         // We want each cell to be 100x100
