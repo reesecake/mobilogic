@@ -8,7 +8,8 @@ import com.codename1.ui.layouts.BorderLayout;
 import java.util.ArrayList;
 
 public class Gate extends Component {
-    private ArrayList<Gate> connections;
+    private ArrayList<Gate> inputs;
+    private ArrayList<Gate> outputs;
     protected GateType type;
 
     public Gate(GateType newType) {
@@ -48,7 +49,8 @@ public class Gate extends Component {
         getStyle().setBgColor(0x0000ff);
         setDraggable(true);
 
-        connections = new ArrayList<>();
+        inputs = new ArrayList<>();
+        outputs = new ArrayList<>();
 
         makeDialog();
     }
@@ -60,13 +62,13 @@ public class Gate extends Component {
     }
 
     // addConnection - Logic for determining output can go here.
-    public void addConnection(Gate gate) {
-        connections.add(gate);
+    public void addInput(Gate gate) {
+        inputs.add(gate);
     }
+    public void addOutput(Gate gate) { outputs.add(gate); }
 
-    public void removeConnection(Gate gate) {
-
-    }
+    public void removeInput(Gate gate) { inputs.remove(gate); }
+    public void removeOutput(Gate gate) { outputs.remove(gate); }
 
     void makeDialog() {
         addLongPressListener(evt -> {
@@ -78,7 +80,16 @@ public class Gate extends Component {
             deleteGate.addActionListener(evt1 -> {
                 int idx = getParent().getComponentIndex(this);
                 if (getParent() instanceof Canvas) {
-                    ((Canvas) getParent()).createSingleCell(idx);
+                    Canvas canvas = (Canvas) getParent();
+                    canvas.removeAllWires(this);
+                    inputs.forEach(gate -> {
+                        gate.removeOutput(this);
+                    });
+                    outputs.forEach(gate -> {
+                        gate.removeInput(this);
+                    });
+                    canvas.setHoldingWire(false);
+                    canvas.createSingleCell(idx);
                     remove();
                 }
                 dlg.dispose();
