@@ -9,7 +9,6 @@ public class SelectorPanel extends Container {
 
     private static Button clear;
     private static Button delete;
-    private static CheckBox edit;
 
     public SelectorPanel(CanvasContainer canvasCon) {
         super(BoxLayout.y());
@@ -18,9 +17,7 @@ public class SelectorPanel extends Container {
         clear = new Button("Clear");
         delete = new Button("Delete");
         clear.addActionListener((evt -> canvasContainer.clearCanvas()));
-        // TODO make delete do something
-        delete.addActionListener((evt -> {}));
-        edit = CheckBox.createToggle("Edit");
+        // TODO use delete for sub circuits?
 
         getStyle().setBgTransparency(255);
         getStyle().setBgColor(0xd3d3d3);
@@ -40,7 +37,6 @@ public class SelectorPanel extends Container {
             addComponent(new Label("GATE SELECTOR"));
             addComponent(clear);
             addComponent(delete);
-            addComponent(edit);
         }
     }
 
