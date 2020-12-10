@@ -70,11 +70,12 @@ public class AppMain {
 
         // from compenent_struct merge:
         // DEBUG - Circuit
+        /*
         Circuit mainCircuit = new Circuit();
-        /* temporary design
-        <off/off>==1_____3_____
-        <on/off>==2____/
-         */
+        // temporary design
+        // <off/off>==1_____3_____
+        // <on/off>==2____/
+
         LogicComponent gate1 = new LogicComponent(2);
         LogicComponent gate2 = new LogicComponent(2);
         LogicComponent gate3 = new LogicComponent(2);
@@ -102,6 +103,7 @@ public class AppMain {
         mainCircuit.SetComponent(gate3);
         //Update Circuit
         mainCircuit.Update();
+        */
     }
 
     public void stop() {

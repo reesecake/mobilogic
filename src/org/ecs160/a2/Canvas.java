@@ -17,8 +17,12 @@ public class Canvas extends Container {
     private Gate selectedWireGate;
     private ArrayList<Wire> wires;
 
+    private Circuit circuit;
+
     public Canvas() {
         super();
+        circuit = new Circuit();
+
         getStyle().setBgTransparency(255);
         getStyle().setBgColor(0x99CCCC);
         setScrollableX(true);
@@ -29,18 +33,10 @@ public class Canvas extends Container {
         setScrollX(5000);
         setScrollY(5000);
 
-        addGate(0, new Gate(GateType.POWER));
-        addGate(1, new Gate(GateType.AND));
-        addGate(2, new Gate(GateType.OR));
-        addGate(3, new Gate(GateType.XOR));
-        addGate(4, new Gate(GateType.NOT));
-        addGate(5, new Gate(GateType.NAND));
-        addGate(6, new Gate(GateType.NOR));
-        addGate(7, new Gate(GateType.XNOR));
-
         createCells();
 
         wires = new ArrayList<>();
+
     }
 
     public void setHoldingWire(Boolean wire) {
@@ -74,7 +70,11 @@ public class Canvas extends Container {
                 holdingWire = true;
             }
         });
+        // Canvas Visual Element
         addComponent(idx, gate);
+        // Circuit Logical Element
+        LogicComponent component = gate.GetLogicalComponent();
+        circuit.AddComponent(component);
     }
 
     // Create the grid of cells
@@ -136,6 +136,12 @@ public class Canvas extends Container {
             if(!wire.isConnected(x)) newWires.add(wire);
         }
         wires = newWires;
+    public void deleteComponent(Component component) {
+        removeComponent(component);
+        if(component instanceof Gate){
+            LogicComponent temp = ((Gate) component).GetLogicalComponent();
+            circuit.RemoveComponent(temp.GetID());
+        }
     }
 
     /** CanvasCell

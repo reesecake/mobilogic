@@ -33,13 +33,18 @@ public class CanvasContainer extends Form {
     }
 
     public void addNewGate(GateType type) {
+        System.out.println("GATE ADDED! Type = " + type.name());
+        
+        // Canvas Section
         Component dest = canvas.getAddLocation();
         int destIdx = canvas.getComponentIndex(dest);
         // for debugging:
         // System.out.println(destIdx);
 
-        canvas.removeComponent(dest);
+        // Remove Existing Component/Gate at destIdx. Fix shift-right bug.
+        canvas.deleteComponent(dest);
 
+        // Instantiate new gate
         Gate newGate = new Gate(type);
         canvas.addGate(destIdx, newGate);
     }

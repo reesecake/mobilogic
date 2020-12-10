@@ -13,36 +13,46 @@ public class Gate extends Component {
     private ArrayList<Gate> outputs;
     private UITimer timer;
     protected GateType type;
+    private LogicComponent component;
 
     public Gate(GateType newType) {
         super();
         type = newType;
         // Determine image/logic on gate type
+
         String img = "power.jpg";
         switch (type) {
             case OR:
                 img = "or.png";
+                component = new GateOR(2);
                 break;
             case AND:
                 img = "and.png";
+                component = new GateAND(2);
                 break;
             case XOR:
                 img = "xor.png";
+                component = new GateXOR(2);
                 break;
             case NOT:
                 img = "not.png";
+                component = new GateNOT(1);
                 break;
             case NOR:
                 img = "nor.png";
+                component = new GateNOR(2);
                 break;
             case NAND:
                 img = "nand.png";
+                component = new GateNAND(2);
                 break;
             case XNOR:
                 img = "xnor.jpg";
+                component = new GateXNOR(2);
                 break;
             case POWER:
                 img = "power.jpg";
+               // Component = new GatePOWER(1);
                 break;
         }
         Image im = AppMain.theme.getImage(img);
@@ -56,6 +66,10 @@ public class Gate extends Component {
 
         inputs = new ArrayList<>();
         outputs = new ArrayList<>();
+    }
+
+    public LogicComponent GetLogicalComponent() {
+        return component;
     }
 
     // We want each gate to be 100x100 (same size as cells)
