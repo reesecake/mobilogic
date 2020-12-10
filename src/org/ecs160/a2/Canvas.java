@@ -4,6 +4,7 @@ import com.codename1.ui.Component;
 import com.codename1.ui.Container;
 import com.codename1.ui.Graphics;
 import com.codename1.ui.geom.Dimension;
+import com.codename1.ui.plaf.Border;
 
 import java.util.ArrayList;
 
@@ -20,7 +21,7 @@ public class Canvas extends Container {
     public Canvas() {
         super();
         getStyle().setBgTransparency(255);
-        getStyle().setBgColor(0x99CCCC);
+        getStyle().setBgColor(0xffffff);
         setScrollableX(true);
         setScrollableY(true);
         setDropTarget(true);
@@ -41,51 +42,6 @@ public class Canvas extends Container {
         createCells();
 
         wires = new ArrayList<>();
-    }
-
-    public void setHoldingWire(Boolean wire) {
-        holdingWire = wire;
-    }
-
-    public Component getAddLocation() {
-        // x y coordinates are located at top-left of physical device
-        // adjust x y to center of display
-        return getClosestComponentTo(getX() + 600, getY() + 1100);
-    }
-
-    public void addGate(int idx, Gate gate) {
-        gate.addLongPressListener(evt -> {
-            Component dest = getComponentAt(evt.getX(), evt.getY());
-            if(!(dest instanceof Gate)) return;
-            if(holdingWire) {
-                // Are we trying to connect to the same component? Don't do that.
-                if(wireExists(selectedWireGate, (Gate) dest)) return;
-
-                // Create wire connection between two components here.
-                // How do we determine if input or output?
-                selectedWireGate.addOutput((Gate) dest);
-                ((Gate) dest).addInput(selectedWireGate);
-                wires.add(new Wire(selectedWireGate, (Gate) dest));
-                repaint();
-                holdingWire = false;
-            } else {
-                // Pick up the wire.
-                selectedWireGate = (Gate) dest;
-                holdingWire = true;
-            }
-        });
-        addComponent(idx, gate);
-    }
-
-    // Create the grid of cells
-    private void createCells() {
-        for (int i = 0; i < 10000; i++) {
-            addComponent(new CanvasCell());
-        }
-    }
-
-    public void createSingleCell(int index) {
-        addComponent(index, new CanvasCell());
     }
 
     @Override
@@ -121,11 +77,73 @@ public class Canvas extends Container {
         animateLayout(1);
     }
 
+    public void setHoldingWire(Boolean wire) {
+        holdingWire = wire;
+    }
+
+    public Component getAddLocation() {
+        // x y coordinates are located at top-left of physical device
+        // adjust x y to center of display
+        return getClosestComponentTo(getX() + 600, getY() + 1100);
+    }
+
+    public void addGate(int idx, Gate gate) {
+        gate.addLongPressListener(evt -> {
+            Component dest = getComponentAt(evt.getX(), evt.getY());
+            if(!(dest instanceof Gate)) return;
+            if(holdingWire) {
+                holdingWire = false;
+
+                selectedWireGate.getUnselectedStyle().setBorder(null);
+                selectedWireGate.getSelectedStyle().setBorder(null);
+
+                // Remove wire if attempting to wire components already together
+                if(wireExists(selectedWireGate, (Gate) dest)) {
+                    removeWire(selectedWireGate, (Gate) dest);
+                    repaint();
+                    return;
+                };
+
+                // Create wire connection between two components here.
+                wires.add(new Wire(selectedWireGate, (Gate) dest));
+            } else {
+                // Pick up the wire.
+                selectedWireGate = (Gate) dest;
+                selectedWireGate.getUnselectedStyle().setBorder(Border.createLineBorder(2));
+                selectedWireGate.getSelectedStyle().setBorder(Border.createLineBorder(2));
+                holdingWire = true;
+            }
+            repaint();
+        });
+        addComponent(idx, gate);
+    }
+
+    // Create the grid of cells
+    private void createCells() {
+        for (int i = 0; i < 10000; i++) {
+            addComponent(new CanvasCell());
+        }
+    }
+
+    public void createSingleCell(int index) {
+        addComponent(index, new CanvasCell());
+    }
+
     private Boolean wireExists(Gate i, Gate j) {
         for(Wire wire : wires) {
             if(wire.isConnected(i, j)) return true;
         }
         return false;
+    }
+
+    public void removeWire(Gate i, Gate j) {
+        ArrayList<Wire> newWires = new ArrayList<>();
+
+        for(Wire wire : wires) {
+            if(!wire.isConnected(i, j)) newWires.add(wire);
+        }
+
+        wires = newWires;
     }
 
     public void removeAllWires(Gate x) {

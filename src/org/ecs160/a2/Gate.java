@@ -9,8 +9,6 @@ import com.codename1.ui.util.UITimer;
 import java.util.ArrayList;
 
 public class Gate extends Component {
-    private ArrayList<Gate> inputs;
-    private ArrayList<Gate> outputs;
     private UITimer timer;
     protected GateType type;
 
@@ -53,9 +51,6 @@ public class Gate extends Component {
         getSelectedStyle().setBgTransparency(255);
         getSelectedStyle().setBgColor(0x0000ff);
         setDraggable(true);
-
-        inputs = new ArrayList<>();
-        outputs = new ArrayList<>();
     }
 
     // We want each gate to be 100x100 (same size as cells)
@@ -82,15 +77,6 @@ public class Gate extends Component {
         }
     }
 
-    // addConnection - Logic for determining output can go here.
-    public void addInput(Gate gate) {
-        inputs.add(gate);
-    }
-    public void addOutput(Gate gate) { outputs.add(gate); }
-
-    public void removeInput(Gate gate) { inputs.remove(gate); }
-    public void removeOutput(Gate gate) { outputs.remove(gate); }
-
     void makeDialog() {
         InteractionDialog dlg = new InteractionDialog(type.toString());
         dlg.setLayout(new BorderLayout());
@@ -102,12 +88,6 @@ public class Gate extends Component {
             if (getParent() instanceof Canvas) {
                 Canvas canvas = (Canvas) getParent();
                 canvas.removeAllWires(this);
-                inputs.forEach(gate -> {
-                    gate.removeOutput(this);
-                });
-                outputs.forEach(gate -> {
-                    gate.removeInput(this);
-                });
                 canvas.setHoldingWire(false);
                 canvas.createSingleCell(idx);
                 remove();
