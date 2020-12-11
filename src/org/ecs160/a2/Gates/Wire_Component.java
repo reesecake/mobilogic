@@ -8,7 +8,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class Wire_Component extends LogicComponent implements com.codename1.io.Externalizable {
+public class Wire_Component extends LogicComponent {
     public void AttachWireInput(LogicComponent src){
         //src gate -> dest wire
         src.ConnectToGate(this,0);
@@ -37,15 +37,5 @@ public class Wire_Component extends LogicComponent implements com.codename1.io.E
     public void UpdateOutput(){
         boolean x = GetInputStates().get(0);
         SetOutput(x);
-    }
-
-    @Override
-    public int getVersion() {
-        return 0;
-    }
-
-    @Override
-    public String getObjectId() {
-        return "Wire_Component";
     }
 }

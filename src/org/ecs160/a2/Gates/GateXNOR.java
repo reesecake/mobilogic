@@ -6,12 +6,16 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-public class GateXNOR extends LogicComponent implements com.codename1.io.Externalizable {
+public class GateXNOR extends LogicComponent {
     public GateXNOR(int numInputs) {
         super(numInputs);
     }
 
     public  String getType() {return "GateXNOR";}
+
+    public GateXNOR(GateXNOR newGateXNOR) {
+        super(newGateXNOR);
+    }
 
     @Override
     public void UpdateOutput(){
@@ -26,15 +30,5 @@ public class GateXNOR extends LogicComponent implements com.codename1.io.Externa
         SetOutput(x);
         System.out.println("XNOR:  " + x);
 
-    }
-
-    @Override
-    public int getVersion() {
-        return 0;
-    }
-
-    @Override
-    public String getObjectId() {
-        return "GateXNOR";
     }
 }

@@ -26,14 +26,4 @@ public class SelectorGate extends Gate {
 
     @Override
     public void makeLampToggleable() {}
-
-    @Override
-    public int getVersion() {
-        return 0;
-    }
-
-    @Override
-    public String getObjectId() {
-        return "SelectorGate";
-    }
 }

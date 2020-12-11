@@ -6,12 +6,16 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-public class GateXOR extends LogicComponent implements com.codename1.io.Externalizable {
+public class GateXOR extends LogicComponent {
     public GateXOR(int numInputs) {
         super(numInputs);
     }
 
     public  String getType() {return "GateXOR";}
+
+    public GateXOR(GateXOR newGateXOR) {
+        super(newGateXOR);
+    }
 
     @Override
     public void UpdateOutput(){
@@ -28,16 +32,4 @@ public class GateXOR extends LogicComponent implements com.codename1.io.External
         System.out.println("XOR:  " + x);
 
     }
-
-    @Override
-    public int getVersion() {
-        return 0;
-    }
-
-    @Override
-    public String getObjectId() {
-        return "GateXOR";
-    }
-
-
 }

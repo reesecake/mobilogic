@@ -10,7 +10,7 @@ import com.codename1.ui.util.UITimer;
 
 import java.io.*;
 
-public class Gate extends Component implements com.codename1.io.Externalizable {
+public class Gate extends Component {
     private UITimer timer;
     protected GateType type;
     private LogicComponent component;
@@ -80,49 +80,48 @@ public class Gate extends Component implements com.codename1.io.Externalizable {
         super();
         timer = null;
         type = newGate.type;
-        component = new LogicComponent(newGate.component);
         on_off = newGate.on_off;
         String img = "power.jpg";
         switch (type) {
             case OR:
                 img = "or.png";
-                component = new GateOR(2);
+                component = new GateOR((GateOR) newGate.component);
                 break;
             case AND:
                 img = "and.png";
-                component = new GateAND(2);
+                component = new GateAND((GateAND) newGate.component);
                 break;
             case XOR:
                 img = "xor.png";
-                component = new GateXOR(2);
+                component = new GateXOR((GateXOR) newGate.component);
                 break;
             case NOT:
                 img = "not.png";
-                component = new GateNOT(1);
+                component = new GateNOT((GateNOT) newGate.component);
                 break;
             case NOR:
                 img = "nor.png";
-                component = new GateNOR(2);
+                component = new GateNOR((GateNOR) newGate.component);
                 break;
             case NAND:
                 img = "nand.png";
-                component = new GateNAND(2);
+                component = new GateNAND((GateNAND) newGate.component);
                 break;
             case XNOR:
                 img = "xnor.jpg";
-                component = new GateXNOR(2);
+                component = new GateXNOR((GateXNOR) newGate.component);
                 break;
             case POWER:
                 img = "power.jpg";
-                component = new GatePower();
+                component = new GatePower((GatePower) newGate.component);
                 break;
             case GROUND:
                 img = "ground.jpg";
-                component = new GateGround();
+                component = new GateGround((GateGround) newGate.component);
                 break;
             case LAMP:
                 img = "lamp.jpg";
-                component = new GateLamp();
+                component = new GateLamp((GateLamp) newGate.component);
                 on_off = false;
                 makeLampToggleable();
                 break;
@@ -201,31 +200,5 @@ public class Gate extends Component implements com.codename1.io.Externalizable {
                 getSelectedStyle().setBgImage(AppMain.theme.getImage("lamp.jpg"));
             }
         });
-    }
-
-    @Override
-    public int getVersion() {
-        return 0;
-    }
-
-    @Override
-    public void externalize(DataOutputStream out) throws IOException {
-        Util.writeObject(timer, out);
-        Util.writeObject(type, out);
-        Util.writeObject(component, out);
-        out.writeBoolean(on_off);
-    }
-
-    @Override
-    public void internalize(int version, DataInputStream in) throws IOException {
-        timer = (UITimer) Util.readObject(in);
-        type = (GateType) Util.readObject(in);
-        component = (LogicComponent) Util.readObject(in);
-        on_off = in.readBoolean();
-    }
-
-    @Override
-    public String getObjectId() {
-        return "Gate";
     }
 }

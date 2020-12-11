@@ -15,7 +15,7 @@ import java.util.ArrayList;
  *  The class that generates the area to place gates and wires, arranged in a Grid pattern.
  *  By default the canvas is 10000x10000px large and supports panning around.
  */
-public class Canvas extends Container implements com.codename1.io.Externalizable {
+public class Canvas extends Container {
     private Boolean holdingWire = false;
     private Gate selectedWireGate;
     private ArrayList<Wire> wires;
@@ -47,6 +47,8 @@ public class Canvas extends Container implements com.codename1.io.Externalizable
     public Canvas(Canvas newCanvas) {
         super();
         circuit = new Circuit(newCanvas.circuit);
+        holdingWire = false;
+        selectedWireGate = null;
 
         getStyle().setBgTransparency(255);
         getStyle().setBgColor(0xffffff);
@@ -206,35 +208,11 @@ public class Canvas extends Container implements com.codename1.io.Externalizable
         }
     }
 
-    @Override
-    public int getVersion() {
-        return 0;
-    }
-
-    @Override
-    public void externalize(DataOutputStream out) throws IOException {
-        Util.writeObject(wires, out);
-        Util.writeUTF(name, out);
-        Util.writeObject(circuit, out);
-    }
-
-    @Override
-    public void internalize(int version, DataInputStream in) throws IOException {
-        wires = (ArrayList<Wire>) Util.readObject(in);
-        name =  Util.readUTF(in);
-        circuit = (Circuit) Util.readObject(in);
-        System.out.println("here");
-    }
-
-    @Override
-    public String getObjectId() {
-        return "Canvas";
-    }
 
     /** CanvasCell
      *  The individual cells that make up the canvas grid.
      */
-    private class CanvasCell extends Component implements com.codename1.io.Externalizable {
+    private class CanvasCell extends Component {
         public CanvasCell() {
             super();
             getUnselectedStyle().setBgTransparency(255);
@@ -248,21 +226,5 @@ public class Canvas extends Container implements com.codename1.io.Externalizable
             return new Dimension(100,100);
         }
 
-        @Override
-        public int getVersion() {
-            return 0;
-        }
-
-        public void externalize(DataOutputStream out) throws IOException {
-
-        }
-
-        public void internalize(int version, DataInputStream in) throws IOException {
-
-        }
-        @Override
-        public String getObjectId() {
-            return "CanvasCell";
-        }
     }
 }

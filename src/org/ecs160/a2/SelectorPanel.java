@@ -65,9 +65,9 @@ public class SelectorPanel extends Container {
         confirm.addActionListener(evt -> {
             // do the saving here
             canvasContainer.getCanvas().setName(name.getText());
-            // save a copy, not a reference
-            Canvas copy = canvasContainer.getCanvas();
-            save.addCanvas(copy);
+            save.addCanvas(canvasContainer.getCanvas());
+            canvasContainer.setCanvas(new Canvas());
+            canvasContainer.setName("");
             // then close
             saveDlg.dispose();
         });

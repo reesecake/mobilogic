@@ -9,16 +9,7 @@ public class Save {
     private Vector<Canvas> allCanvases;
 
     public Save() {
-//        Storage.getInstance().clearStorage();
-        if (!Storage.getInstance().exists("savedCanvases")) {
-            allCanvases = new Vector<>();
-        } else {
-            allCanvases = (Vector<Canvas>) Storage.getInstance().readObject("savedCanvases");
-            if (allCanvases == null) {
-                System.out.println("error loading from memory");
-                allCanvases = new Vector<>();
-            }
-        }
+        allCanvases = new Vector<>();
     }
 
     public void addCanvas(Canvas newCanvas) {
@@ -30,10 +21,7 @@ public class Save {
                 alreadyExists = true;
             }
         }
-
         if (!alreadyExists) allCanvases.addElement(newCanvas);
-
-        Storage.getInstance().writeObject("savedCanvases", allCanvases);
     }
 
     public Vector<Canvas> getSavedCanvases() {

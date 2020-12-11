@@ -6,12 +6,16 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-public class GateNOR extends LogicComponent implements com.codename1.io.Externalizable {
+public class GateNOR extends LogicComponent {
     public GateNOR(int numInputs) {
         super(numInputs);
     }
 
     public  String getType() {return "GateNOR";}
+
+    public GateNOR(GateNOR newGateNOR) {
+        super(newGateNOR);
+    }
 
     @Override
     public void UpdateOutput(){
@@ -23,13 +27,4 @@ public class GateNOR extends LogicComponent implements com.codename1.io.External
         System.out.println("NOR:  " + x);
     }
 
-    @Override
-    public int getVersion() {
-        return 0;
-    }
-
-    @Override
-    public String getObjectId() {
-        return "GateAND";
-    }
 }
