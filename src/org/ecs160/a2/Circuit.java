@@ -5,6 +5,11 @@ import java.util.ArrayList;
 public class Circuit {
     private ArrayList<LogicComponent> AllComponents = new ArrayList<>();
     private ArrayList<LogicComponent> RootComponents = new ArrayList<>(); // attached to overall outputs
+    private Canvas parent;
+
+    public Circuit (Canvas canvas) {
+        parent = canvas;
+    }
 
     private void UpdateRoots(){
         // Is root if Output is standalone (not connected)
@@ -96,5 +101,6 @@ public class Circuit {
         // Updates Entire Circuit
         UpdateRoots();
         UpdateStates();
+        parent.repaint();
     }
 }
