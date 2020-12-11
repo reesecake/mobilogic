@@ -42,7 +42,7 @@ public class Save {
 
     public Canvas getCanvasByName(String findName) {
         for (Canvas c : allCanvases) {
-            if (c.getName().equals(findName)) return new Canvas(c);
+            if (c.getName().equals(findName)) return c;
         }
         return null;
     }

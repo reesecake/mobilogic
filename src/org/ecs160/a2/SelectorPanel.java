@@ -66,7 +66,8 @@ public class SelectorPanel extends Container {
             // do the saving here
             canvasContainer.getCanvas().setName(name.getText());
             // save a copy, not a reference
-            save.addCanvas(new Canvas(canvasContainer.getCanvas()));
+            Canvas copy = canvasContainer.getCanvas();
+            save.addCanvas(copy);
             // then close
             saveDlg.dispose();
         });
@@ -86,9 +87,11 @@ public class SelectorPanel extends Container {
         // only this block depends on saves
         Container loadContainer = new Container(BoxLayout.y());
         loadContainer.setScrollableY(true);
+        ButtonGroup loadsBG = new ButtonGroup();
+
         if (save != null && !save.getSavedCanvases().isEmpty()) {
             for (Canvas c : save.getSavedCanvases()) {
-                loadContainer.addComponent(new Label(c.getName()));
+                loadContainer.addComponent(RadioButton.createToggle(c.getName(), loadsBG));
             }
             loadDlg.add(loadContainer);
         } else {
@@ -98,6 +101,17 @@ public class SelectorPanel extends Container {
 
         Button confirm = new Button("Load");
         confirm.addActionListener(evt -> {
+            if (loadsBG.isSelected()) {
+                Canvas load = save.getCanvasByName(loadsBG.getSelected().getText());
+                System.out.println("Attempting to load: " + loadsBG.getSelected().getText());
+                // System.out.println(load);
+                canvasContainer.setCanvas(load);
+            } else {
+                // prints all saved canvases for debug
+                for (Canvas c : save.getSavedCanvases()) {
+                    System.out.println(c.getName());
+                }
+            }
             loadDlg.dispose();
         });
         loadDlg.add(confirm);
