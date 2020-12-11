@@ -54,7 +54,7 @@ public class Gate extends Component {
                 component = new GatePower();
                 break;
             case GROUND:
-                img = "ground.png";
+                img = "ground.jpg";
                 component = new GateGround();
                 break;
         }
