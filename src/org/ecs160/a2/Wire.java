@@ -32,14 +32,6 @@ public class Wire {
         return powered;
     }
 
-    public void turnOn() {
-        powered = true;
-    }
-
-    public void turnOff() {
-        powered = false;
-    }
-
     public int[] getCoords() {
         int[] coords = new int[4];
         coords[0] = gate1.getX();
@@ -49,7 +41,8 @@ public class Wire {
 
         return coords;
     }
-    public void connectGates(){
+
+    public void connectGates() {
         // g1 = src Output
         // g2 = dest Input (first available)
         LogicComponent src = gate1.GetLogicalComponent();
@@ -59,13 +52,10 @@ public class Wire {
         circuitWire.AttachWireOutput(dest);
 
         circuitWire.UpdateOutput();
-        if(circuitWire.GetOutputState()){
-            this.turnOn();
-        }else{
-            this.turnOff();
-        }
+        powered = circuitWire.GetOutputState();
     }
-    public LogicComponent disconnectGates(){
+
+    public LogicComponent disconnectGates() {
         // g1 = src Output
         // g2 = dest Input (first available)
         LogicComponent src = gate1.GetLogicalComponent();
@@ -74,6 +64,10 @@ public class Wire {
         circuitWire.DetachWireOutput(dest);
 
         return circuitWire;
+    }
+
+    public void update() {
+        powered = circuitWire.GetOutputState();
     }
 
     public LogicComponent getLogicalComponent() {
