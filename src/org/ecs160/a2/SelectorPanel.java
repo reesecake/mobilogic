@@ -106,6 +106,9 @@ public class SelectorPanel extends Container {
                 System.out.println("Attempting to load: " + loadsBG.getSelected().getText());
                 // System.out.println(load);
                 canvasContainer.setCanvas(load);
+                if (canvasContainer.getCanvas().getName().equals(loadsBG.getSelected().getText())) {
+                    showLoadSuccess(canvasContainer.getCanvas().getName());
+                }
             } else {
                 // prints all saved canvases for debug
                 for (Canvas c : save.getSavedCanvases()) {
@@ -121,6 +124,14 @@ public class SelectorPanel extends Container {
         loadDlg.add(close);
 
         loadDlg.show();
+    }
+
+    private void showLoadSuccess(String loadName) {
+        Dialog successDlg = new Dialog("Loading...");
+        successDlg.setLayout(BoxLayout.y());
+        successDlg.setTimeout(500);
+        successDlg.addComponent(new Label("Successfully loaded " + loadName));
+        successDlg.show();
     }
 
     private static class PanelToolBar extends Container {
