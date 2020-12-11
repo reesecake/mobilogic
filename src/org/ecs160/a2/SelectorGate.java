@@ -20,14 +20,14 @@ public class SelectorGate extends Gate {
     public Dimension calcPreferredSize() { return new Dimension(150,150); }
 
     @Override
-  
     public void makeDialog() {
         InteractionDialog dlg = new InteractionDialog(type.toString());
         dlg.setDisposeWhenPointerOutOfBounds(true);
 
         dlg.showPopupDialog(this);
     }
-  
-    // can't toggle lamp in list
-    public void makeLampToggleable() {}
+
+    // don't want to toggle switch in list
+    @Override
+    public void inputSwitchToggle() {}
 }

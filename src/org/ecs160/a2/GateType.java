@@ -10,5 +10,6 @@ public enum GateType {
     XNOR,
     POWER,
     GROUND,
-    LAMP;
+    OUTPUT_LAMP,
+    SWITCH;
 }
