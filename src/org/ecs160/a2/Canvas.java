@@ -23,7 +23,7 @@ public class Canvas extends Container {
 
     public Canvas() {
         super();
-        circuit = new Circuit();
+        circuit = new Circuit(this);
 
         getStyle().setBgTransparency(255);
         getStyle().setBgColor(0xffffff);
