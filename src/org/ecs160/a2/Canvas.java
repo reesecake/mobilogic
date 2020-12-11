@@ -42,7 +42,29 @@ public class Canvas extends Container implements com.codename1.io.Externalizable
         name = "";
 
         wires = new ArrayList<>();
+    }
 
+    public Canvas(Canvas newCanvas) {
+        super();
+        circuit = new Circuit(newCanvas.circuit);
+
+        getStyle().setBgTransparency(255);
+        getStyle().setBgColor(0xffffff);
+        setScrollableX(true);
+        setScrollableY(true);
+        setDropTarget(true);
+
+        // Set the viewport to the middle of the grid
+        setScrollX(5000);
+        setScrollY(5000);
+
+        createCells();
+
+        name = new String(newCanvas.name);
+
+        wires = new ArrayList<Wire>();
+        for (Wire w : newCanvas.wires)
+            wires.add(new Wire(w));
     }
 
     public String getName() {
@@ -225,6 +247,7 @@ public class Canvas extends Container implements com.codename1.io.Externalizable
             return new Dimension(100,100);
         }
 
+        @Override
         public int getVersion() {
             return 0;
         }
@@ -236,7 +259,7 @@ public class Canvas extends Container implements com.codename1.io.Externalizable
         public void internalize(int version, DataInputStream in) throws IOException {
 
         }
-
+        @Override
         public String getObjectId() {
             return "CanvasCell";
         }

@@ -1,7 +1,14 @@
 package org.ecs160.a2.Gates;
+import com.codename1.io.Util;
+import com.codename1.ui.util.UITimer;
+import org.ecs160.a2.GateType;
 import org.ecs160.a2.LogicComponent;
 
-public class GateAND extends LogicComponent {
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+
+public class GateAND extends LogicComponent implements com.codename1.io.Externalizable {
 
     public GateAND(int numInputs) {
         super(numInputs);
@@ -17,5 +24,15 @@ public class GateAND extends LogicComponent {
         SetOutput(x);
         System.out.printf("AND of X: %s%n", x);
 
+    }
+
+    @Override
+    public int getVersion() {
+        return 0;
+    }
+
+    @Override
+    public String getObjectId() {
+        return "GateAND";
     }
 }

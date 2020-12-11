@@ -76,6 +76,67 @@ public class Gate extends Component implements com.codename1.io.Externalizable {
         setDraggable(true);
     }
 
+    public Gate(Gate newGate) {
+        super();
+        timer = null;
+        type = newGate.type;
+        component = new LogicComponent(newGate.component);
+        on_off = newGate.on_off;
+        String img = "power.jpg";
+        switch (type) {
+            case OR:
+                img = "or.png";
+                component = new GateOR(2);
+                break;
+            case AND:
+                img = "and.png";
+                component = new GateAND(2);
+                break;
+            case XOR:
+                img = "xor.png";
+                component = new GateXOR(2);
+                break;
+            case NOT:
+                img = "not.png";
+                component = new GateNOT(1);
+                break;
+            case NOR:
+                img = "nor.png";
+                component = new GateNOR(2);
+                break;
+            case NAND:
+                img = "nand.png";
+                component = new GateNAND(2);
+                break;
+            case XNOR:
+                img = "xnor.jpg";
+                component = new GateXNOR(2);
+                break;
+            case POWER:
+                img = "power.jpg";
+                component = new GatePower();
+                break;
+            case GROUND:
+                img = "ground.jpg";
+                component = new GateGround();
+                break;
+            case LAMP:
+                img = "lamp.jpg";
+                component = new GateLamp();
+                on_off = false;
+                makeLampToggleable();
+                break;
+        }
+        Image im = AppMain.theme.getImage(img);
+        getUnselectedStyle().setBgImage(im);
+        getUnselectedStyle().setBgTransparency(255);
+        getUnselectedStyle().setBgColor(0x0000ff);
+        getSelectedStyle().setBgImage(im);
+        getSelectedStyle().setBgTransparency(255);
+        getSelectedStyle().setBgColor(0x0000ff);
+        setDraggable(true);
+    }
+
     public LogicComponent GetLogicalComponent() {
         return component;
     }

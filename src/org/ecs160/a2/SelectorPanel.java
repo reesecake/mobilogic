@@ -20,7 +20,6 @@ public class SelectorPanel extends Container {
         super(BoxLayout.y());
         canvasContainer = canvasCon;
 
-        save = new Save();
 
         clear = new Button("Clear");
         delete = new Button("Delete");
@@ -51,6 +50,8 @@ public class SelectorPanel extends Container {
         addComponent(gateList);
 
         addGateListListeners(gateList);
+
+        save = new Save();
     }
 
     private void makeSave() {
@@ -64,7 +65,8 @@ public class SelectorPanel extends Container {
         confirm.addActionListener(evt -> {
             // do the saving here
             canvasContainer.getCanvas().setName(name.getText());
-            save.addCanvas(canvasContainer.getCanvas());
+            // save a copy, not a reference
+            save.addCanvas(new Canvas(canvasContainer.getCanvas()));
             // then close
             saveDlg.dispose();
         });

@@ -12,6 +12,15 @@ public class Circuit implements com.codename1.io.Externalizable {
     public Circuit() {
     }
 
+    public Circuit(Circuit newCircuit) {
+        AllComponents = new ArrayList<>();
+        for (LogicComponent c : newCircuit.AllComponents)
+            AllComponents.add(new LogicComponent(c));
+        RootComponents = new ArrayList<>();
+        for (LogicComponent c : newCircuit.RootComponents)
+            RootComponents.add(new LogicComponent(c));
+    }
+
     private void UpdateRoots(){
         // Is root if Output is standalone (not connected)
         for (LogicComponent comp: AllComponents) {

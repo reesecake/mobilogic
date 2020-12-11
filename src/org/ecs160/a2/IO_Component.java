@@ -17,6 +17,12 @@ public class IO_Component implements com.codename1.io.Externalizable {
 
     }
 
+    public IO_Component(IO_Component newIO_Component) {
+        CurrState = newIO_Component.CurrState;
+        ID = newIO_Component.ID;
+        ConnectedID = newIO_Component.ConnectedID;
+    }
+
     public boolean getState() {
         return CurrState;
     }

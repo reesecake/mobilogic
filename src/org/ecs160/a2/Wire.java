@@ -22,8 +22,11 @@ public class Wire implements com.codename1.io.Externalizable {
         connectGates();
     }
 
-    public Wire() {
-
+    public Wire(Wire newWire) {
+        gate1 = new Gate(newWire.gate1);
+        gate2 = new Gate(newWire.gate2);
+        powered = newWire.powered;
+        circuitWire = new Wire_Component(newWire.circuitWire);
     }
 
     public Boolean isConnected(Gate g1, Gate g2) {
@@ -75,7 +78,6 @@ public class Wire implements com.codename1.io.Externalizable {
     public LogicComponent getLogicalComponent() {
         return circuitWire;
     }
-
 
     @Override
     public int getVersion() {

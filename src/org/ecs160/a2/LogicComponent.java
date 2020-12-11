@@ -34,6 +34,17 @@ public class LogicComponent implements com.codename1.io.Externalizable {
 
     }
 
+    public LogicComponent(LogicComponent newLogicComponent) {
+        ID = newLogicComponent.ID;
+        numInputs = newLogicComponent.numInputs;
+        Inputs = new ArrayList<IO_Component>();
+        for (IO_Component a : newLogicComponent.Inputs)
+            Inputs.add(new IO_Component(a));
+        Output = new IO_Component(newLogicComponent.Output);
+        propagationDelay = newLogicComponent.propagationDelay;
+        name = newLogicComponent.name;
+    }
+
     public LogicComponent(int numInputs) {
         this.ID = GenerateID();
         this.numInputs = numInputs;

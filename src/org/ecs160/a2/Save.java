@@ -8,6 +8,7 @@ public class Save {
     private Vector<Canvas> allCanvases;
 
     public Save() {
+        Storage.getInstance().clearStorage();
         if (!Storage.getInstance().exists("savedCanvases")) {
             allCanvases = new Vector<Canvas>();
         } else {
@@ -25,7 +26,7 @@ public class Save {
             }
         }
 
-        if (!alreadyExists) allCanvases.add(newCanvas);
+        if (!alreadyExists) allCanvases.addElement(newCanvas);
 
         Storage.getInstance().writeObject("savedCanvases", allCanvases);
     }
@@ -36,7 +37,7 @@ public class Save {
 
     public Canvas getCanvasByName(String findName) {
         for (Canvas c : allCanvases) {
-            if (c.getName().equals(findName)) return c;
+            if (c.getName().equals(findName)) return new Canvas(c);
         }
         return null;
     }
