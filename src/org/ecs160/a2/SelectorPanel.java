@@ -6,18 +6,14 @@ import com.codename1.ui.layouts.BoxLayout;
 public class SelectorPanel extends Container {
 
     private static CanvasContainer canvasContainer;
-    private static Save save;
 
     private static Button clear;
     private static Button delete;
     private static CheckBox edit;
 
-
     public SelectorPanel(CanvasContainer canvasCon) {
         super(BoxLayout.y());
         canvasContainer = canvasCon;
-
-        save = new Save();
 
         clear = new Button("Clear");
         delete = new Button("Delete");
@@ -53,10 +49,9 @@ public class SelectorPanel extends Container {
             super(BoxLayout.x());
             setScrollableX(true);
 
-            SelectorGate selPower = new SelectorGate(GateType.POWER);
-            SelectorGate selGround = new SelectorGate(GateType.GROUND);
-            addComponent(selPower);
-            addComponent(selGround);
+            addComponent(new SelectorGate(GateType.LAMP));
+            addComponent(new SelectorGate(GateType.POWER));
+            addComponent(new SelectorGate(GateType.GROUND));
             addComponent(new SelectorGate(GateType.AND));
             addComponent(new SelectorGate(GateType.OR));
             addComponent(new SelectorGate(GateType.XOR));
