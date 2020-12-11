@@ -65,6 +65,16 @@ public class Wire {
             this.turnOff();
         }
     }
+    public LogicComponent disconnectGates(){
+        // g1 = src Output
+        // g2 = dest Input (first available)
+        LogicComponent src = gate1.GetLogicalComponent();
+        LogicComponent dest = gate2.GetLogicalComponent();
+        circuitWire.DetachWireInput(src);
+        circuitWire.DetachWireOutput(dest);
+
+        return circuitWire;
+    }
 
     public LogicComponent getLogicalComponent() {
         return circuitWire;
