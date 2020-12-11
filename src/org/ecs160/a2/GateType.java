@@ -9,5 +9,6 @@ public enum GateType {
     NOR,
     XNOR,
     POWER,
-    GROUND;
+    GROUND,
+    LAMP;
 }
