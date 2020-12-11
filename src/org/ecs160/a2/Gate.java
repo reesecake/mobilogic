@@ -57,6 +57,10 @@ public class Gate extends Component {
                 img = "ground.jpg";
                 component = new GateGround();
                 break;
+            case LAMP:
+                img = "lamp.jpg";
+                // TODO: component = new GateLamp();
+                break;
         }
         Image im = AppMain.theme.getImage(img);
         getUnselectedStyle().setBgImage(im);
