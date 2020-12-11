@@ -7,14 +7,11 @@ import com.codename1.ui.geom.Dimension;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.util.UITimer;
 
-import java.util.ArrayList;
-
 public class Gate extends Component {
-    private ArrayList<Gate> inputs;
-    private ArrayList<Gate> outputs;
     private UITimer timer;
     protected GateType type;
     private LogicComponent component;
+    private boolean on_off; // for lamp
 
     public Gate(GateType newType) {
         super();
@@ -56,8 +53,14 @@ public class Gate extends Component {
                 component = new GatePower();
                 break;
             case GROUND:
-                img = "power.jpg";
+                img = "ground.jpg";
                 component = new GateGround();
+                break;
+            case LAMP:
+                img = "lamp.jpg";
+                component = new GateLamp();
+                on_off = false;
+                makeLampToggleable();
                 break;
         }
         Image im = AppMain.theme.getImage(img);
@@ -68,9 +71,6 @@ public class Gate extends Component {
         getSelectedStyle().setBgTransparency(255);
         getSelectedStyle().setBgColor(0x0000ff);
         setDraggable(true);
-
-        inputs = new ArrayList<>();
-        outputs = new ArrayList<>();
     }
 
     public LogicComponent GetLogicalComponent() {
@@ -101,16 +101,7 @@ public class Gate extends Component {
         }
     }
 
-    // addConnection - Logic for determining output can go here.
-    public void addInput(Gate gate) {
-        inputs.add(gate);
-    }
-    public void addOutput(Gate gate) { outputs.add(gate); }
-
-    public void removeInput(Gate gate) { inputs.remove(gate); }
-    public void removeOutput(Gate gate) { outputs.remove(gate); }
-
-    public void makeDialog() {
+    void makeDialog() {
         InteractionDialog dlg = new InteractionDialog(type.toString());
         dlg.setLayout(new BorderLayout());
         dlg.setDisposeWhenPointerOutOfBounds(true);
@@ -121,12 +112,6 @@ public class Gate extends Component {
             if (getParent() instanceof Canvas) {
                 Canvas canvas = (Canvas) getParent();
                 canvas.removeAllWires(this);
-                inputs.forEach(gate -> {
-                    gate.removeOutput(this);
-                });
-                outputs.forEach(gate -> {
-                    gate.removeInput(this);
-                });
                 canvas.setHoldingWire(false);
                 canvas.createSingleCell(idx);
                 remove();
@@ -139,6 +124,19 @@ public class Gate extends Component {
         dlg.addComponent(BorderLayout.SOUTH, close);
 
         dlg.showPopupDialog(this);
+    }
+
+    public void makeLampToggleable() {
+        addPointerPressedListener(evt -> {
+            on_off = !on_off;
+            if (on_off) {
+                getUnselectedStyle().setBgImage(AppMain.theme.getImage("lamp_on.jpg"));
+                getSelectedStyle().setBgImage(AppMain.theme.getImage("lamp_on.jpg"));
+            } else {
+                getUnselectedStyle().setBgImage(AppMain.theme.getImage("lamp.jpg"));
+                getSelectedStyle().setBgImage(AppMain.theme.getImage("lamp.jpg"));
+            }
+        });
     }
 
 }

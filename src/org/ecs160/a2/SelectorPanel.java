@@ -45,10 +45,9 @@ public class SelectorPanel extends Container {
             super(BoxLayout.x());
             setScrollableX(true);
 
-            SelectorGate selPower = new SelectorGate(GateType.POWER);
-            SelectorGate selGround = new SelectorGate(GateType.GROUND);
-            addComponent(selPower);
-            addComponent(selGround);
+            addComponent(new SelectorGate(GateType.LAMP));
+            addComponent(new SelectorGate(GateType.POWER));
+            addComponent(new SelectorGate(GateType.GROUND));
             addComponent(new SelectorGate(GateType.AND));
             addComponent(new SelectorGate(GateType.OR));
             addComponent(new SelectorGate(GateType.XOR));
