@@ -7,11 +7,12 @@ import com.codename1.ui.geom.Dimension;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.util.UITimer;
 
+import java.util.ArrayList;
+
 public class Gate extends Component {
     private UITimer timer;
     protected GateType type;
     private LogicComponent component;
-    private boolean on_off; // for lamp
 
     public Gate(GateType newType) {
         super();
@@ -53,14 +54,8 @@ public class Gate extends Component {
                 component = new GatePower();
                 break;
             case GROUND:
-                img = "ground.jpg";
+                img = "ground.png";
                 component = new GateGround();
-                break;
-            case LAMP:
-                img = "lamp.jpg";
-                component = new GateLamp();
-                on_off = false;
-                makeLampToggleable();
                 break;
         }
         Image im = AppMain.theme.getImage(img);
@@ -124,19 +119,6 @@ public class Gate extends Component {
         dlg.addComponent(BorderLayout.SOUTH, close);
 
         dlg.showPopupDialog(this);
-    }
-
-    public void makeLampToggleable() {
-        addPointerPressedListener(evt -> {
-            on_off = !on_off;
-            if (on_off) {
-                getUnselectedStyle().setBgImage(AppMain.theme.getImage("lamp_on.jpg"));
-                getSelectedStyle().setBgImage(AppMain.theme.getImage("lamp_on.jpg"));
-            } else {
-                getUnselectedStyle().setBgImage(AppMain.theme.getImage("lamp.jpg"));
-                getSelectedStyle().setBgImage(AppMain.theme.getImage("lamp.jpg"));
-            }
-        });
     }
 
 }

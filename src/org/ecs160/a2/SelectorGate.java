@@ -17,7 +17,4 @@ public class SelectorGate extends Gate {
 
     @Override
     public Dimension calcPreferredSize() { return new Dimension(150,150); }
-
-    @Override
-    public void makeLampToggleable() {}
 }

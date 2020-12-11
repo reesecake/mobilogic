@@ -17,6 +17,7 @@ public class Canvas extends Container {
     private Boolean holdingWire = false;
     private Gate selectedWireGate;
     private ArrayList<Wire> wires;
+    private Integer id;
 
     private Circuit circuit;
 
@@ -38,6 +39,14 @@ public class Canvas extends Container {
 
         wires = new ArrayList<>();
 
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer newId) {
+        id = newId;
     }
 
     @Override
