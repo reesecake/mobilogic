@@ -2,17 +2,22 @@ package org.ecs160.a2;
 
 import com.codename1.io.Storage;
 
+import java.io.IOException;
 import java.util.Vector;
 
 public class Save {
     private Vector<Canvas> allCanvases;
 
     public Save() {
-        Storage.getInstance().clearStorage();
+//        Storage.getInstance().clearStorage();
         if (!Storage.getInstance().exists("savedCanvases")) {
-            allCanvases = new Vector<Canvas>();
+            allCanvases = new Vector<>();
         } else {
             allCanvases = (Vector<Canvas>) Storage.getInstance().readObject("savedCanvases");
+            if (allCanvases == null) {
+                System.out.println("error loading from memory");
+                allCanvases = new Vector<>();
+            }
         }
     }
 

@@ -223,6 +223,7 @@ public class Canvas extends Container implements com.codename1.io.Externalizable
         wires = (ArrayList<Wire>) Util.readObject(in);
         name =  Util.readUTF(in);
         circuit = (Circuit) Util.readObject(in);
+        System.out.println("here");
     }
 
     @Override
