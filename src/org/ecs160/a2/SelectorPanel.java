@@ -2,6 +2,8 @@ package org.ecs160.a2;
 
 import com.codename1.ui.*;
 import com.codename1.ui.layouts.BoxLayout;
+import com.codename1.ui.plaf.Style;
+import com.codename1.ui.plaf.UIManager;
 
 public class SelectorPanel extends Container {
 
@@ -10,7 +12,7 @@ public class SelectorPanel extends Container {
 
     private static Button clear;
     private static Button delete;
-    private static CheckBox edit;
+    private static Button saveBtn;
 
     public SelectorPanel(CanvasContainer canvasCon) {
         super(BoxLayout.y());
@@ -23,7 +25,15 @@ public class SelectorPanel extends Container {
         clear.addActionListener((evt -> canvasContainer.clearCanvas()));
         // TODO make delete do something
         delete.addActionListener((evt -> {}));
-        edit = CheckBox.createToggle("Edit");
+
+
+        Style s = UIManager.getInstance().getComponentStyle("Title");
+        FontImage saveIcon = FontImage.createMaterial(FontImage.MATERIAL_SAVE, s);
+        saveBtn = new Button("", saveIcon);
+        saveBtn.addActionListener(evt -> {
+            // TODO: add save logic to makeSave()
+            makeSave();
+        });
 
         getStyle().setBgTransparency(255);
         getStyle().setBgColor(0xd3d3d3);
@@ -36,6 +46,29 @@ public class SelectorPanel extends Container {
         addGateListListeners(gateList);
     }
 
+    private void makeSave() {
+        Dialog saveDlg = new Dialog("Save Canvas");
+        saveDlg.setLayout(BoxLayout.y());
+
+        TextField name = new TextField("", "Save name", 15, TextArea.ANY);
+        saveDlg.add(name);
+
+        Button confirm = new Button("Save");
+        confirm.addActionListener(evt -> {
+            // do the saving here
+            // name.getText();
+            // then close
+            saveDlg.dispose();
+        });
+        saveDlg.add(confirm);
+
+        Button cancel = new Button("Cancel");
+        cancel.addActionListener(evt -> saveDlg.dispose());
+        saveDlg.add(cancel);
+
+        saveDlg.show();
+    }
+
     private static class PanelToolBar extends Container {
         public PanelToolBar() {
             super(BoxLayout.x());
@@ -43,7 +76,7 @@ public class SelectorPanel extends Container {
             addComponent(new Label("GATE SELECTOR"));
             addComponent(clear);
             addComponent(delete);
-            addComponent(edit);
+            addComponent(saveBtn);
         }
     }
 
