@@ -10,9 +10,11 @@ public class SelectorPanel extends Container {
     private static CanvasContainer canvasContainer;
     private static Save save;
 
+    // might move these, they don't need to be global
     private static Button clear;
     private static Button delete;
     private static Button saveBtn;
+    private static Button loadBtn;
 
     public SelectorPanel(CanvasContainer canvasCon) {
         super(BoxLayout.y());
@@ -32,6 +34,12 @@ public class SelectorPanel extends Container {
         saveBtn = new Button("", saveIcon);
         saveBtn.addActionListener(evt -> {
             makeSave();
+        });
+
+        FontImage loadIcon = FontImage.createMaterial(FontImage.MATERIAL_FOLDER, s);
+        loadBtn = new Button("", loadIcon);
+        loadBtn.addActionListener(evt -> {
+            loadSaves();
         });
 
         getStyle().setBgTransparency(255);
@@ -69,6 +77,36 @@ public class SelectorPanel extends Container {
         saveDlg.show();
     }
 
+    private void loadSaves() {
+        Dialog loadDlg = new Dialog("Load Canvas");
+        loadDlg.setLayout(BoxLayout.y());
+
+        // only this block depends on saves
+        Container loadContainer = new Container(BoxLayout.y());
+        loadContainer.setScrollableY(true);
+        if (save != null && !save.getSavedCanvases().isEmpty()) {
+            for (Canvas c : save.getSavedCanvases()) {
+                loadContainer.addComponent(new Label(c.getName()));
+            }
+            loadDlg.add(loadContainer);
+        } else {
+            loadDlg.add(new Label("No Saves"));
+        }
+        // to here
+
+        Button confirm = new Button("Load");
+        confirm.addActionListener(evt -> {
+            loadDlg.dispose();
+        });
+        loadDlg.add(confirm);
+
+        Button close = new Button("Close");
+        close.addActionListener(evt -> loadDlg.dispose());
+        loadDlg.add(close);
+
+        loadDlg.show();
+    }
+
     private static class PanelToolBar extends Container {
         public PanelToolBar() {
             super(BoxLayout.x());
@@ -77,6 +115,7 @@ public class SelectorPanel extends Container {
             addComponent(clear);
             addComponent(delete);
             addComponent(saveBtn);
+            addComponent(loadBtn);
         }
     }
 
