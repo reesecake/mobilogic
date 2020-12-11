@@ -6,6 +6,7 @@ import com.codename1.ui.layouts.BoxLayout;
 public class SelectorPanel extends Container {
 
     private static CanvasContainer canvasContainer;
+    private static Save save;
 
     private static Button clear;
     private static Button delete;
@@ -14,6 +15,8 @@ public class SelectorPanel extends Container {
     public SelectorPanel(CanvasContainer canvasCon) {
         super(BoxLayout.y());
         canvasContainer = canvasCon;
+
+        save = new Save();
 
         clear = new Button("Clear");
         delete = new Button("Delete");
