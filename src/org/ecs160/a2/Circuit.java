@@ -101,6 +101,6 @@ public class Circuit {
         // Updates Entire Circuit
         UpdateRoots();
         UpdateStates();
-        parent.repaint();
+        parent.updateWires();
     }
 }

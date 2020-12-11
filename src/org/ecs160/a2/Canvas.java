@@ -171,6 +171,14 @@ public class Canvas extends Container {
         }
         wires = newWires;
     }
+
+    public void updateWires() {
+        for (Wire wire : wires) {
+            wire.update();
+        }
+        repaint();
+    }
+
     public void deleteComponent(Component component) {
         removeComponent(component);
         if(component instanceof Gate){
