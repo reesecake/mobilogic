@@ -1,10 +1,12 @@
 package org.ecs160.a2;
 
+import com.codename1.io.Util;
 import org.ecs160.a2.Gates.*;
 
+import java.io.*;
 import java.util.ArrayList;
 
-public class Wire {
+public class Wire implements com.codename1.io.Externalizable {
     private Gate gate1;
     private Gate gate2;
     private Boolean powered;
@@ -18,6 +20,10 @@ public class Wire {
 
         circuitWire = new Wire_Component();
         connectGates();
+    }
+
+    public Wire() {
+
     }
 
     public Boolean isConnected(Gate g1, Gate g2) {
@@ -68,5 +74,32 @@ public class Wire {
 
     public LogicComponent getLogicalComponent() {
         return circuitWire;
+    }
+
+
+    @Override
+    public int getVersion() {
+        return 0;
+    }
+
+    @Override
+    public void externalize(DataOutputStream out) throws IOException {
+        Util.writeObject(gate1, out);
+        Util.writeObject(gate2, out);
+        out.writeBoolean(powered);
+        Util.writeObject(circuitWire, out);
+    }
+
+    @Override
+    public void internalize(int version, DataInputStream in) throws IOException {
+        gate1 = (Gate) Util.readObject(in);
+        gate2 = (Gate) Util.readObject(in);
+        powered = in.readBoolean();
+        circuitWire = (Wire_Component) Util.readObject(in);
+    }
+
+    @Override
+    public String getObjectId() {
+        return "Wire";
     }
 }

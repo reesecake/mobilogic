@@ -1,10 +1,16 @@
 package org.ecs160.a2;
 
+import com.codename1.io.Util;
+
+import java.io.*;
 import java.util.ArrayList;
 
-public class Circuit {
-    private ArrayList<LogicComponent> AllComponents = new ArrayList<>();
-    private ArrayList<LogicComponent> RootComponents = new ArrayList<>(); // attached to overall outputs
+public class Circuit implements com.codename1.io.Externalizable {
+    ArrayList<LogicComponent> AllComponents = new ArrayList<>();
+    ArrayList<LogicComponent> RootComponents = new ArrayList<>(); // attached to overall outputs
+
+    public Circuit() {
+    }
 
     private void UpdateRoots(){
         // Is root if Output is standalone (not connected)
@@ -96,5 +102,27 @@ public class Circuit {
         // Updates Entire Circuit
         UpdateRoots();
         UpdateStates();
+    }
+
+    @Override
+    public int getVersion() {
+        return 0;
+    }
+
+    @Override
+    public void externalize(DataOutputStream out) throws IOException {
+        Util.writeObject(AllComponents, out);
+        Util.writeObject(RootComponents, out);
+    }
+
+    @Override
+    public void internalize(int version, DataInputStream in) throws IOException {
+        AllComponents = (ArrayList<LogicComponent>) Util.readObject(in);
+        RootComponents = (ArrayList<LogicComponent>) Util.readObject(in);
+    }
+
+    @Override
+    public String getObjectId() {
+        return "Circuit";
     }
 }

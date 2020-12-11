@@ -1,6 +1,8 @@
 package org.ecs160.a2;
 
-public class IO_Component{
+import java.io.*;
+
+public class IO_Component implements com.codename1.io.Externalizable {
     private boolean CurrState; // Powered On/Off
     private long ID; // ID of logic component holding it
     private long ConnectedID; // ID of logic component attached externally (-1 if NULL)
@@ -11,6 +13,9 @@ public class IO_Component{
         ConnectedID = -1; // Negative represents Not Connected
     }
 
+    public IO_Component() {
+
+    }
 
     public boolean getState() {
         return CurrState;
@@ -41,5 +46,29 @@ public class IO_Component{
         } else {
             System.out.println("Current State: OFF");
         }
+    }
+
+    @Override
+    public int getVersion() {
+        return 0;
+    }
+
+    @Override
+    public void externalize(DataOutputStream out) throws IOException {
+        out.writeBoolean(CurrState);
+        out.writeLong(ID);
+        out.writeLong(ConnectedID);
+    }
+
+    @Override
+    public void internalize(int version, DataInputStream in) throws IOException {
+        CurrState = in.readBoolean();
+        ID = in.readLong();
+        ConnectedID = in.readLong();
+    }
+
+    @Override
+    public String getObjectId() {
+        return "IO_Component";
     }
 }

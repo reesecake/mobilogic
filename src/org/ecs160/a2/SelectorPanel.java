@@ -31,7 +31,6 @@ public class SelectorPanel extends Container {
         FontImage saveIcon = FontImage.createMaterial(FontImage.MATERIAL_SAVE, s);
         saveBtn = new Button("", saveIcon);
         saveBtn.addActionListener(evt -> {
-            // TODO: add save logic to makeSave()
             makeSave();
         });
 
@@ -50,13 +49,14 @@ public class SelectorPanel extends Container {
         Dialog saveDlg = new Dialog("Save Canvas");
         saveDlg.setLayout(BoxLayout.y());
 
-        TextField name = new TextField("", "Save name", 15, TextArea.ANY);
+        TextField name = new TextField(canvasContainer.getCanvas().getName(), "Save name", 15, TextArea.ANY);
         saveDlg.add(name);
 
         Button confirm = new Button("Save");
         confirm.addActionListener(evt -> {
             // do the saving here
-            // name.getText();
+            canvasContainer.getCanvas().setName(name.getText());
+            save.addCanvas(canvasContainer.getCanvas());
             // then close
             saveDlg.dispose();
         });

@@ -1,4 +1,5 @@
 package org.ecs160.a2;
+import com.codename1.io.Util;
 import org.ecs160.a2.Gates.*;
 
 import com.codename1.components.InteractionDialog;
@@ -7,7 +8,9 @@ import com.codename1.ui.geom.Dimension;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.util.UITimer;
 
-public class Gate extends Component {
+import java.io.*;
+
+public class Gate extends Component implements com.codename1.io.Externalizable {
     private UITimer timer;
     protected GateType type;
     private LogicComponent component;
@@ -139,4 +142,29 @@ public class Gate extends Component {
         });
     }
 
+    @Override
+    public int getVersion() {
+        return 0;
+    }
+
+    @Override
+    public void externalize(DataOutputStream out) throws IOException {
+        Util.writeObject(timer, out);
+        Util.writeObject(type, out);
+        Util.writeObject(component, out);
+        out.writeBoolean(on_off);
+    }
+
+    @Override
+    public void internalize(int version, DataInputStream in) throws IOException {
+        timer = (UITimer) Util.readObject(in);
+        type = (GateType) Util.readObject(in);
+        component = (LogicComponent) Util.readObject(in);
+        on_off = in.readBoolean();
+    }
+
+    @Override
+    public String getObjectId() {
+        return "Gate";
+    }
 }

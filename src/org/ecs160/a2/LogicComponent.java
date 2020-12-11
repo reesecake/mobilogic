@@ -1,10 +1,14 @@
 package org.ecs160.a2;
 
+import com.codename1.io.Externalizable;
+import com.codename1.io.Util;
+
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class LogicComponent{
+public class LogicComponent implements com.codename1.io.Externalizable {
     private Long ID;
     public String name; // Easy Debug Option
 
@@ -12,7 +16,6 @@ public class LogicComponent{
     private ArrayList<IO_Component> Inputs;
     private IO_Component Output;
     private double propagationDelay = 0;
-
 
     // Init
     private Long GenerateID(){
@@ -25,6 +28,10 @@ public class LogicComponent{
             in.setState(false);
             Inputs.add(in);
         }
+    }
+
+    public LogicComponent() {
+
     }
 
     public LogicComponent(int numInputs) {
@@ -121,5 +128,33 @@ public class LogicComponent{
 
     public long GetID() {
         return ID;
+    }
+
+    @Override
+    public int getVersion() {
+        return 0;
+    }
+
+    @Override
+    public void externalize(DataOutputStream out) throws IOException {
+        out.writeLong(ID);
+        out.writeInt(numInputs);
+        Util.writeObject(Inputs, out);
+        Util.writeObject(Output, out);
+        out.writeDouble(propagationDelay);
+    }
+
+    @Override
+    public void internalize(int version, DataInputStream in) throws IOException {
+        ID = in.readLong();
+        numInputs = in.readInt();
+        Inputs = (ArrayList<IO_Component>) Util.readObject(in);
+        Output = (IO_Component) Util.readObject(in);
+        propagationDelay = in.readDouble();
+    }
+
+    @Override
+    public String getObjectId() {
+        return "LogicComponent";
     }
 }

@@ -1,11 +1,13 @@
 package org.ecs160.a2;
 
+import com.codename1.io.Util;
 import com.codename1.ui.Component;
 import com.codename1.ui.Container;
 import com.codename1.ui.Graphics;
 import com.codename1.ui.geom.Dimension;
 import com.codename1.ui.plaf.Border;
 
+import java.io.*;
 import java.util.ArrayList;
 
 
@@ -13,11 +15,11 @@ import java.util.ArrayList;
  *  The class that generates the area to place gates and wires, arranged in a Grid pattern.
  *  By default the canvas is 10000x10000px large and supports panning around.
  */
-public class Canvas extends Container {
+public class Canvas extends Container implements com.codename1.io.Externalizable {
     private Boolean holdingWire = false;
     private Gate selectedWireGate;
     private ArrayList<Wire> wires;
-    private Integer id;
+    private String name;
 
     private Circuit circuit;
 
@@ -37,16 +39,18 @@ public class Canvas extends Container {
 
         createCells();
 
+        name = "";
+
         wires = new ArrayList<>();
 
     }
 
-    public Integer getId() {
-        return id;
+    public String getName() {
+        return name;
     }
 
-    public void setId(Integer newId) {
-        id = newId;
+    public void setName(String newName) {
+        name = newName;
     }
 
     @Override
@@ -180,10 +184,34 @@ public class Canvas extends Container {
         }
     }
 
+    @Override
+    public int getVersion() {
+        return 0;
+    }
+
+    @Override
+    public void externalize(DataOutputStream out) throws IOException {
+        Util.writeObject(wires, out);
+        Util.writeUTF(name, out);
+        Util.writeObject(circuit, out);
+    }
+
+    @Override
+    public void internalize(int version, DataInputStream in) throws IOException {
+        wires = (ArrayList<Wire>) Util.readObject(in);
+        name =  Util.readUTF(in);
+        circuit = (Circuit) Util.readObject(in);
+    }
+
+    @Override
+    public String getObjectId() {
+        return "Canvas";
+    }
+
     /** CanvasCell
      *  The individual cells that make up the canvas grid.
      */
-    private class CanvasCell extends Component {
+    private class CanvasCell extends Component implements com.codename1.io.Externalizable {
         public CanvasCell() {
             super();
             getUnselectedStyle().setBgTransparency(255);
@@ -193,9 +221,24 @@ public class Canvas extends Container {
         }
 
         // We want each cell to be 100x100
-        @Override
         public Dimension calcPreferredSize() {
             return new Dimension(100,100);
+        }
+
+        public int getVersion() {
+            return 0;
+        }
+
+        public void externalize(DataOutputStream out) throws IOException {
+
+        }
+
+        public void internalize(int version, DataInputStream in) throws IOException {
+
+        }
+
+        public String getObjectId() {
+            return "CanvasCell";
         }
     }
 }

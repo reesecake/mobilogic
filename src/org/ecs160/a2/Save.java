@@ -19,7 +19,7 @@ public class Save {
         // replace canvas with new version if already in saved list
         boolean alreadyExists = false;
         for (int i = 0; i < allCanvases.size(); i++) {
-            if (allCanvases.elementAt(i).getId().equals(newCanvas.getId())) {
+            if (allCanvases.elementAt(i).getName().equals(newCanvas.getName())) {
                 allCanvases.set(i, newCanvas);
                 alreadyExists = true;
             }
@@ -34,9 +34,9 @@ public class Save {
         return allCanvases;
     }
 
-    public Canvas getCanvasById(Integer id) {
+    public Canvas getCanvasByName(String findName) {
         for (Canvas c : allCanvases) {
-            if (c.getId().equals(id)) return c;
+            if (c.getName().equals(findName)) return c;
         }
         return null;
     }

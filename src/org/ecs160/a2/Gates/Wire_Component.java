@@ -1,7 +1,7 @@
 package org.ecs160.a2.Gates;
 import org.ecs160.a2.LogicComponent;
 
-public class Wire_Component extends LogicComponent {
+public class Wire_Component extends LogicComponent implements com.codename1.io.Externalizable {
     public void AttachWireInput(LogicComponent src){
         //src gate -> dest wire
         src.ConnectToGate(this,0);
