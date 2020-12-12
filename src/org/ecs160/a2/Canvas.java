@@ -10,7 +10,6 @@ import com.codename1.ui.plaf.Border;
 import java.io.*;
 import java.util.ArrayList;
 
-import java.util.EventListener;
 
 /** Canvas
  *  The class that generates the area to place gates and wires, arranged in a Grid pattern.
@@ -26,7 +25,7 @@ public class Canvas extends Container {
 
     public Canvas() {
         super();
-        circuit = new Circuit(this);
+        circuit = new Circuit();
 
         getStyle().setBgTransparency(255);
         getStyle().setBgColor(0xffffff);
@@ -161,14 +160,7 @@ public class Canvas extends Container {
         ArrayList<Wire> newWires = new ArrayList<>();
 
         for(Wire wire : wires) {
-            if(!wire.isConnected(i, j)) {
-                newWires.add(wire);
-            }else{
-                // disconnect logical wire from circuit
-                wire.disconnectGates();
-                circuit.RemoveComponent(wire.getLogicalComponent().GetID());
-                circuit.Update();
-            }
+            if(!wire.isConnected(i, j)) newWires.add(wire);
         }
 
         wires = newWires;
@@ -183,14 +175,6 @@ public class Canvas extends Container {
         }
         wires = newWires;
     }
-
-    public void updateWires() {
-        for (Wire wire : wires) {
-            wire.update();
-        }
-        repaint();
-    }
-
     public void deleteComponent(Component component) {
         removeComponent(component);
         if(component instanceof Gate){
@@ -198,7 +182,6 @@ public class Canvas extends Container {
             circuit.RemoveComponent(temp.GetID());
         }
     }
-
 
     /** CanvasCell
      *  The individual cells that make up the canvas grid.

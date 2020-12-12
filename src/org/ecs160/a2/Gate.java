@@ -1,4 +1,5 @@
 package org.ecs160.a2;
+import com.codename1.io.Util;
 import org.ecs160.a2.Gates.*;
 
 import com.codename1.components.InteractionDialog;
@@ -7,11 +8,13 @@ import com.codename1.ui.geom.Dimension;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.util.UITimer;
 
+import java.io.*;
+
 public class Gate extends Component {
     private UITimer timer;
     protected GateType type;
     private LogicComponent component;
-    private boolean on_off; // for switch and lamp
+    private boolean on_off; // for lamp
 
     public Gate(GateType newType) {
         super();
@@ -49,24 +52,18 @@ public class Gate extends Component {
                 component = new GateXNOR(2);
                 break;
             case POWER:
-                img = "power.png";
+                img = "power.jpg";
                 component = new GatePower();
                 break;
             case GROUND:
                 img = "ground.jpg";
                 component = new GateGround();
                 break;
-            case OUTPUT_LAMP:
+            case LAMP:
                 img = "lamp.jpg";
                 component = new GateLamp();
                 on_off = false;
-                outputLampToggle();
-                break;
-            case SWITCH:
-                img = "switch_off.png";
-                component = new GateSwitch();
-                on_off = false;
-                inputSwitchToggle();
+                makeLampToggleable();
                 break;
         }
         Image im = AppMain.theme.getImage(img);
@@ -132,29 +129,16 @@ public class Gate extends Component {
         dlg.showPopupDialog(this);
     }
 
-    public void outputLampToggle() {
-        // TODO: call from logic to toggle output lamp is on/off
-        // on_off = !on_off;
-        if (on_off) {
-            getUnselectedStyle().setBgImage(AppMain.theme.getImage("lamp_on.jpg"));
-            getSelectedStyle().setBgImage(AppMain.theme.getImage("lamp_on.jpg"));
-        } else {
-            getUnselectedStyle().setBgImage(AppMain.theme.getImage("lamp.jpg"));
-            getSelectedStyle().setBgImage(AppMain.theme.getImage("lamp.jpg"));
-        }
-    }
-
-    public void inputSwitchToggle() {
+    public void makeLampToggleable() {
         addPointerPressedListener(evt -> {
             on_off = !on_off;
             if (on_off) {
-                getUnselectedStyle().setBgImage(AppMain.theme.getImage("switch_on.png"));
-                getSelectedStyle().setBgImage(AppMain.theme.getImage("switch_on.png"));
+                getUnselectedStyle().setBgImage(AppMain.theme.getImage("lamp_on.jpg"));
+                getSelectedStyle().setBgImage(AppMain.theme.getImage("lamp_on.jpg"));
             } else {
-                getUnselectedStyle().setBgImage(AppMain.theme.getImage("switch_off.png"));
-                getSelectedStyle().setBgImage(AppMain.theme.getImage("switch_off.png"));
+                getUnselectedStyle().setBgImage(AppMain.theme.getImage("lamp.jpg"));
+                getSelectedStyle().setBgImage(AppMain.theme.getImage("lamp.jpg"));
             }
         });
     }
-
 }

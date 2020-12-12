@@ -24,9 +24,9 @@ public class SelectorPanel extends Container {
         clear = new Button("Clear");
         delete = new Button("Delete");
         clear.addActionListener((evt -> canvasContainer.clearCanvas()));
-
         // TODO make delete do something
         delete.addActionListener((evt -> {}));
+
 
         Style s = UIManager.getInstance().getComponentStyle("Title");
         FontImage saveIcon = FontImage.createMaterial(FontImage.MATERIAL_SAVE, s);
@@ -151,8 +151,7 @@ public class SelectorPanel extends Container {
             super(BoxLayout.x());
             setScrollableX(true);
 
-            addComponent(new SelectorGate(GateType.OUTPUT_LAMP));
-            addComponent(new SelectorGate(GateType.SWITCH));
+            addComponent(new SelectorGate(GateType.LAMP));
             addComponent(new SelectorGate(GateType.POWER));
             addComponent(new SelectorGate(GateType.GROUND));
             addComponent(new SelectorGate(GateType.AND));

@@ -1,12 +1,6 @@
 package org.ecs160.a2.Gates;
-import com.codename1.io.Util;
-import com.codename1.ui.util.UITimer;
-import org.ecs160.a2.GateType;
 import org.ecs160.a2.LogicComponent;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
 
 public class GateAND extends LogicComponent {
 
