@@ -44,31 +44,6 @@ public class Canvas extends Container {
         wires = new ArrayList<>();
     }
 
-    public Canvas(Canvas newCanvas) {
-        super();
-        circuit = new Circuit(newCanvas.circuit);
-        holdingWire = false;
-        selectedWireGate = null;
-
-        getStyle().setBgTransparency(255);
-        getStyle().setBgColor(0xffffff);
-        setScrollableX(true);
-        setScrollableY(true);
-        setDropTarget(true);
-
-        // Set the viewport to the middle of the grid
-        setScrollX(5000);
-        setScrollY(5000);
-
-        createCells();
-
-        name = new String(newCanvas.name);
-
-        wires = new ArrayList<Wire>();
-        for (Wire w : newCanvas.wires)
-            wires.add(new Wire(w));
-    }
-
     public String getName() {
         return name;
     }
@@ -222,9 +197,9 @@ public class Canvas extends Container {
         }
 
         // We want each cell to be 100x100
+        @Override
         public Dimension calcPreferredSize() {
             return new Dimension(100,100);
         }
-
     }
 }

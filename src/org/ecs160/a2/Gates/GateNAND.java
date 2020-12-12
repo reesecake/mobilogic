@@ -11,10 +11,6 @@ public class GateNAND extends LogicComponent {
         super(numInputs);
     }
 
-    public GateNAND(GateNAND newGateNAND) {
-        super(newGateNAND);
-    }
-
     public  String getType() {return "GateNAND";}
 
     @Override

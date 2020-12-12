@@ -13,10 +13,6 @@ public class GateXOR extends LogicComponent {
 
     public  String getType() {return "GateXOR";}
 
-    public GateXOR(GateXOR newGateXOR) {
-        super(newGateXOR);
-    }
-
     @Override
     public void UpdateOutput(){
         boolean x = GetInputStates().get(0);

@@ -11,10 +11,6 @@ public class GatePower extends LogicComponent {
     }
     public  String getType() {return "GatePower";}
 
-    public GatePower(GatePower newGatePower) {
-        super(newGatePower);
-    }
-
     @Override
     public void UpdateOutput(){
         SetOutput(true);

@@ -14,10 +14,6 @@ public class GateAND extends LogicComponent {
         super(numInputs);
     }
 
-    public GateAND(GateAND newGateAND) {
-        super(newGateAND);
-    }
-
     public  String getType() {return "GateAND";}
 
     @Override

@@ -13,12 +13,6 @@ public class IO_Component {
         ConnectedID = -1; // Negative represents Not Connected
     }
 
-    public IO_Component(IO_Component newIO_Component) {
-        CurrState = newIO_Component.CurrState;
-        ID = newIO_Component.ID;
-        ConnectedID = newIO_Component.ConnectedID;
-    }
-
     public boolean getState() {
         return CurrState;
     }

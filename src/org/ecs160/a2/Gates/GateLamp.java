@@ -11,10 +11,6 @@ public class GateLamp extends LogicComponent  {
         super(0);
     }
 
-    public GateLamp(GateLamp newGateLamp) {
-        super(newGateLamp);
-    }
-
     public  String getType() {return "GateLamp";}
 
     @Override

@@ -76,66 +76,6 @@ public class Gate extends Component {
         setDraggable(true);
     }
 
-    public Gate(Gate newGate) {
-        super();
-        timer = null;
-        type = newGate.type;
-        on_off = newGate.on_off;
-        String img = "power.jpg";
-        switch (type) {
-            case OR:
-                img = "or.png";
-                component = new GateOR((GateOR) newGate.component);
-                break;
-            case AND:
-                img = "and.png";
-                component = new GateAND((GateAND) newGate.component);
-                break;
-            case XOR:
-                img = "xor.png";
-                component = new GateXOR((GateXOR) newGate.component);
-                break;
-            case NOT:
-                img = "not.png";
-                component = new GateNOT((GateNOT) newGate.component);
-                break;
-            case NOR:
-                img = "nor.png";
-                component = new GateNOR((GateNOR) newGate.component);
-                break;
-            case NAND:
-                img = "nand.png";
-                component = new GateNAND((GateNAND) newGate.component);
-                break;
-            case XNOR:
-                img = "xnor.jpg";
-                component = new GateXNOR((GateXNOR) newGate.component);
-                break;
-            case POWER:
-                img = "power.jpg";
-                component = new GatePower((GatePower) newGate.component);
-                break;
-            case GROUND:
-                img = "ground.jpg";
-                component = new GateGround((GateGround) newGate.component);
-                break;
-            case LAMP:
-                img = "lamp.jpg";
-                component = new GateLamp((GateLamp) newGate.component);
-                on_off = false;
-                makeLampToggleable();
-                break;
-        }
-        Image im = AppMain.theme.getImage(img);
-        getUnselectedStyle().setBgImage(im);
-        getUnselectedStyle().setBgTransparency(255);
-        getUnselectedStyle().setBgColor(0x0000ff);
-        getSelectedStyle().setBgImage(im);
-        getSelectedStyle().setBgTransparency(255);
-        getSelectedStyle().setBgColor(0x0000ff);
-        setDraggable(true);
-    }
-
     public LogicComponent GetLogicalComponent() {
         return component;
     }

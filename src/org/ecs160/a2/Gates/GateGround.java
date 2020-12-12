@@ -10,10 +10,6 @@ public class GateGround extends LogicComponent {
         super(0);
     }
 
-    public GateGround(GateGround newGateGround) {
-        super(newGateGround);
-    }
-
     public  String getType() {return "GateGround";}
 
     @Override

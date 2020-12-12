@@ -22,13 +22,6 @@ public class Wire implements com.codename1.io.Externalizable {
         connectGates();
     }
 
-    public Wire(Wire newWire) {
-        gate1 = new Gate(newWire.gate1);
-        gate2 = new Gate(newWire.gate2);
-        powered = newWire.powered;
-        circuitWire = new Wire_Component(newWire.circuitWire);
-    }
-
     public Boolean isConnected(Gate g1, Gate g2) {
         return (g1 == gate1 && g2 == gate2) || (g1 == gate2 && g2 == gate1);
     }

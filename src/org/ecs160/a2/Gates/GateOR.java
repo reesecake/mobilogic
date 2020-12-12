@@ -13,10 +13,6 @@ public class GateOR extends LogicComponent {
 
     public  String getType() {return "GateOr";}
 
-    public GateOR(GateOR newGateOR) {
-        super(newGateOR);
-    }
-
     @Override
     public void UpdateOutput(){
         boolean x = GetInputStates().get(0);

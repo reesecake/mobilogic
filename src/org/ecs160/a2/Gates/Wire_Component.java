@@ -27,10 +27,6 @@ public class Wire_Component extends LogicComponent {
         super(1);
     }
 
-    public Wire_Component(Wire_Component newWire_Component) {
-        super(newWire_Component);
-    }
-
     public  String getType() {return "Wire_Component";}
 
     @Override

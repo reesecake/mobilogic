@@ -13,10 +13,6 @@ public class GateNOT extends LogicComponent {
 
     public  String getType() {return "GateNOT";}
 
-    public GateNOT(GateNOT newGateNOT) {
-        super(newGateNOT);
-    }
-
     @Override
     public void UpdateOutput(){
         boolean x = GetInputStates().get(0);
