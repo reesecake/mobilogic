@@ -7,6 +7,8 @@ import com.codename1.ui.geom.Dimension;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.util.UITimer;
 
+import java.util.ArrayList;
+
 public class Gate extends Component {
     private UITimer timer;
     protected GateType type;
@@ -133,8 +135,10 @@ public class Gate extends Component {
     }
 
     public void outputLampToggle() {
-        // TODO: call from logic to toggle output lamp is on/off
         // on_off = !on_off;
+        GateLamp gateLamp = (GateLamp) this.GetLogicalComponent();
+        on_off = gateLamp.GetOutputState();
+
         if (on_off) {
             getUnselectedStyle().setBgImage(AppMain.theme.getImage("lamp_on.jpg"));
             getSelectedStyle().setBgImage(AppMain.theme.getImage("lamp_on.jpg"));
