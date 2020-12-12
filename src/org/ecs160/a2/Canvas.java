@@ -41,6 +41,11 @@ public class Canvas extends Container {
 
     }
 
+    public void UpdateCanvas(){
+        circuit.Update();
+        repaint();
+    }
+
     @Override
     public void paint(Graphics g) {
         super.paint(g);
@@ -82,7 +87,7 @@ public class Canvas extends Container {
     public Component getAddLocation() {
         // x y coordinates are located at top-left of physical device
         // adjust x y to center of display
-        return getClosestComponentTo(getX() + 600, getY() + 1100);
+        return getClosestComponentTo(getX() + 100, getY() + 400);
     }
 
     public void addGate(int idx, Gate gate) {
