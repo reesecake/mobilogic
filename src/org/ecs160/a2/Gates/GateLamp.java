@@ -4,7 +4,7 @@ import org.ecs160.a2.LogicComponent;
 
 public class GateLamp extends LogicComponent {
     public GateLamp() {
-        super(0);
+        super(1);
     }
     public  String getType() {return "GateLamp";}
 

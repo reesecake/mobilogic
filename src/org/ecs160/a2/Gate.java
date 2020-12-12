@@ -150,10 +150,16 @@ public class Gate extends Component {
             if (on_off) {
                 getUnselectedStyle().setBgImage(AppMain.theme.getImage("switch_on.png"));
                 getSelectedStyle().setBgImage(AppMain.theme.getImage("switch_on.png"));
+
             } else {
                 getUnselectedStyle().setBgImage(AppMain.theme.getImage("switch_off.png"));
                 getSelectedStyle().setBgImage(AppMain.theme.getImage("switch_off.png"));
             }
+            GateSwitch gateSwitch = (GateSwitch) this.GetLogicalComponent();
+            gateSwitch.ToggleInput(on_off);
+
+            ((Canvas)getParent()).UpdateCanvas();
+
         });
     }
 
