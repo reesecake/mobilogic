@@ -64,6 +64,7 @@ public class Canvas extends Container {
             } else {
                 g.setColor(0x0000ff);
             }
+            g.fillTriangle(coords[2], coords[3],coords[0]-10, coords[1]+10,coords[0]-10, coords[1]-10);
             g.drawLine(coords[0], coords[1], coords[2], coords[3]);
         });
     }
