@@ -15,7 +15,6 @@ public class SelectorPanel extends Container {
     private static Button saveBtn;
     private static Button loadBtn;
     private static Button clear;
-    private static Button delete;
 
     public SelectorPanel(CanvasContainer canvasCon) {
         super(BoxLayout.y());
@@ -23,24 +22,17 @@ public class SelectorPanel extends Container {
 
 
         clear = new Button("Clear");
-        delete = new Button("Delete");
         clear.addActionListener((evt -> canvasContainer.clearCanvas()));
-        // TODO make delete do something
-        delete.addActionListener((evt -> {}));
 
 
         Style s = UIManager.getInstance().getComponentStyle("Title");
         FontImage saveIcon = FontImage.createMaterial(FontImage.MATERIAL_SAVE, s);
         saveBtn = new Button("", saveIcon);
-        saveBtn.addActionListener(evt -> {
-            makeSave();
-        });
+        saveBtn.addActionListener(evt -> makeSave());
 
         FontImage loadIcon = FontImage.createMaterial(FontImage.MATERIAL_FOLDER, s);
         loadBtn = new Button("", loadIcon);
-        loadBtn.addActionListener(evt -> {
-            loadSaves();
-        });
+        loadBtn.addActionListener(evt -> loadSaves());
 
         getStyle().setBgTransparency(255);
         getStyle().setBgColor(0xd3d3d3);
@@ -141,7 +133,7 @@ public class SelectorPanel extends Container {
 
             addComponent(new Label("GATE SELECTOR"));
             addComponent(clear);
-            addComponent(delete);
+            addComponent(new Label("         ")); // spacer
             addComponent(saveBtn);
             addComponent(loadBtn);
         }
