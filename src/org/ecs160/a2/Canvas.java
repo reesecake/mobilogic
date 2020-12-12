@@ -19,6 +19,7 @@ public class Canvas extends Container {
     private Gate selectedWireGate;
     private ArrayList<Wire> wires;
     private ArrayList<Gate> AllLamps;
+    private String name;
 
     private Circuit circuit;
 
@@ -39,8 +40,18 @@ public class Canvas extends Container {
 
         createCells();
 
+        name = "";
+
         wires = new ArrayList<>();
 
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String newName) {
+        name = newName;
     }
 
     public void UpdateCanvas(){
