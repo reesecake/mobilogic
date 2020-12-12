@@ -103,4 +103,7 @@ public class Circuit {
         UpdateStates();
         parent.updateWires();
     }
+    public void RefreshCanvas(){
+        parent.UpdateCanvas();
+    }
 }

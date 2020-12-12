@@ -18,12 +18,14 @@ public class Canvas extends Container {
     private Boolean holdingWire = false;
     private Gate selectedWireGate;
     private ArrayList<Wire> wires;
+    private ArrayList<Gate> AllLamps;
 
     private Circuit circuit;
 
     public Canvas() {
         super();
         circuit = new Circuit(this);
+        AllLamps = new ArrayList<>();
 
         getStyle().setBgTransparency(255);
         getStyle().setBgColor(0xffffff);
@@ -42,8 +44,14 @@ public class Canvas extends Container {
     }
 
     public void UpdateCanvas(){
+        //Update circuit information and states
         circuit.Update();
+        //Paint all Wires
         repaint();
+        //Update all Lamps
+        for (Gate lamp:AllLamps) {
+            lamp.outputLampToggle();
+        }
     }
 
     @Override
@@ -114,7 +122,7 @@ public class Canvas extends Container {
                 circuit.AddComponent(newWire.getLogicalComponent());
 
                 wires.add(newWire);
-                circuit.Update();
+                UpdateCanvas();
             } else {
                 // Pick up the wire.
                 selectedWireGate = (Gate) dest;
@@ -130,6 +138,9 @@ public class Canvas extends Container {
         // Circuit Logical Element
         LogicComponent component = gate.GetLogicalComponent();
         circuit.AddComponent(component);
+        if(gate.type == GateType.OUTPUT_LAMP){
+            AllLamps.add(gate);
+        }
     }
 
     // Create the grid of cells
@@ -160,11 +171,13 @@ public class Canvas extends Container {
                 // disconnect logical wire from circuit
                 wire.disconnectGates();
                 circuit.RemoveComponent(wire.getLogicalComponent().GetID());
-                circuit.Update();
+                //circuit.Update();
             }
         }
 
         wires = newWires;
+        UpdateCanvas();
+
     }
 
     public void removeAllWires(Gate x) {
@@ -172,9 +185,17 @@ public class Canvas extends Container {
 
         // Filtering...the Java way.
         for (Wire wire : wires) {
-            if (!wire.isConnected(x)) newWires.add(wire);
+            if (!wire.isConnected(x)) {
+                newWires.add(wire);
+            } else {
+                // disconnect logical wire from circuit
+                wire.disconnectGates();
+                circuit.RemoveComponent(wire.getLogicalComponent().GetID());
+                //circuit.Update();
+            }
         }
         wires = newWires;
+        UpdateCanvas();
     }
 
     public void updateWires() {
@@ -189,6 +210,9 @@ public class Canvas extends Container {
         if(component instanceof Gate){
             LogicComponent temp = ((Gate) component).GetLogicalComponent();
             circuit.RemoveComponent(temp.GetID());
+            if(((Gate) component).type == GateType.OUTPUT_LAMP){
+                AllLamps.remove(component);
+            }
         }
     }
 
