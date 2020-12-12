@@ -12,7 +12,9 @@
     <image name="nor.png" type="multi"  />
     <image name="not.png" type="multi"  />
     <image name="or.png" type="multi"  />
-    <image name="power.jpg" type="multi"  />
+    <image name="power.png" type="multi"  />
+    <image name="switch_off.png" type="multi"  />
+    <image name="switch_on.png" type="multi"  />
     <theme name="Theme">
         <val key="@includeNativeBool" value="true" />
         <val key="GetStarted.align" value="4" />

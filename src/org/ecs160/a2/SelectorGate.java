@@ -1,6 +1,6 @@
 package org.ecs160.a2;
 
-import com.codename1.io.Util;
+import com.codename1.components.InteractionDialog;
 import com.codename1.ui.geom.Dimension;
 import com.codename1.ui.util.UITimer;
 
@@ -25,5 +25,14 @@ public class SelectorGate extends Gate {
     public Dimension calcPreferredSize() { return new Dimension(150,150); }
 
     @Override
-    public void makeLampToggleable() {}
+    public void makeDialog() {
+        InteractionDialog dlg = new InteractionDialog(type.toString());
+        dlg.setDisposeWhenPointerOutOfBounds(true);
+
+        dlg.showPopupDialog(this);
+    }
+
+    // don't want to toggle switch in list
+    @Override
+    public void inputSwitchToggle() {}
 }

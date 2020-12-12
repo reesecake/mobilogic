@@ -34,14 +34,6 @@ public class Wire implements com.codename1.io.Externalizable {
         return powered;
     }
 
-    public void turnOn() {
-        powered = true;
-    }
-
-    public void turnOff() {
-        powered = false;
-    }
-
     public int[] getCoords() {
         int[] coords = new int[4];
         coords[0] = gate1.getX();
@@ -51,7 +43,8 @@ public class Wire implements com.codename1.io.Externalizable {
 
         return coords;
     }
-    public void connectGates(){
+
+    public void connectGates() {
         // g1 = src Output
         // g2 = dest Input (first available)
         LogicComponent src = gate1.GetLogicalComponent();
@@ -61,11 +54,22 @@ public class Wire implements com.codename1.io.Externalizable {
         circuitWire.AttachWireOutput(dest);
 
         circuitWire.UpdateOutput();
-        if(circuitWire.GetOutputState()){
-            this.turnOn();
-        }else{
-            this.turnOff();
-        }
+        powered = circuitWire.GetOutputState();
+    }
+
+    public LogicComponent disconnectGates() {
+        // g1 = src Output
+        // g2 = dest Input (first available)
+        LogicComponent src = gate1.GetLogicalComponent();
+        LogicComponent dest = gate2.GetLogicalComponent();
+        circuitWire.DetachWireInput(src);
+        circuitWire.DetachWireOutput(dest);
+
+        return circuitWire;
+    }
+
+    public void update() {
+        powered = circuitWire.GetOutputState();
     }
 
     public LogicComponent getLogicalComponent() {

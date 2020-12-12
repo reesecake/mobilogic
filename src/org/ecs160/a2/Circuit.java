@@ -5,11 +5,13 @@ import com.codename1.io.Util;
 import java.io.*;
 import java.util.ArrayList;
 
-public class Circuit implements com.codename1.io.Externalizable {
-    ArrayList<LogicComponent> AllComponents = new ArrayList<>();
-    ArrayList<LogicComponent> RootComponents = new ArrayList<>(); // attached to overall outputs
+public class Circuit {
+    private ArrayList<LogicComponent> AllComponents = new ArrayList<>();
+    private ArrayList<LogicComponent> RootComponents = new ArrayList<>(); // attached to overall outputs
+    private Canvas parent;
 
-    public Circuit() {
+    public Circuit (Canvas canvas) {
+        parent = canvas;
     }
 
     private void UpdateRoots(){
@@ -102,6 +104,7 @@ public class Circuit implements com.codename1.io.Externalizable {
         // Updates Entire Circuit
         UpdateRoots();
         UpdateStates();
+        parent.updateWires();
     }
 
     @Override
