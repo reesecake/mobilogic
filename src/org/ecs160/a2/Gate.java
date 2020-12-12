@@ -79,7 +79,7 @@ public class Gate extends Component {
     public LogicComponent GetLogicalComponent() {
         return component;
     }
-
+  
     // We want each gate to be 100x100 (same size as cells)
     @Override
     public Dimension calcPreferredSize() {
@@ -133,12 +133,17 @@ public class Gate extends Component {
         addPointerPressedListener(evt -> {
             on_off = !on_off;
             if (on_off) {
-                getUnselectedStyle().setBgImage(AppMain.theme.getImage("lamp_on.jpg"));
-                getSelectedStyle().setBgImage(AppMain.theme.getImage("lamp_on.jpg"));
+                getUnselectedStyle().setBgImage(AppMain.theme.getImage("switch_on.png"));
+                getSelectedStyle().setBgImage(AppMain.theme.getImage("switch_on.png"));
             } else {
-                getUnselectedStyle().setBgImage(AppMain.theme.getImage("lamp.jpg"));
-                getSelectedStyle().setBgImage(AppMain.theme.getImage("lamp.jpg"));
+                getUnselectedStyle().setBgImage(AppMain.theme.getImage("switch_off.png"));
+                getSelectedStyle().setBgImage(AppMain.theme.getImage("switch_off.png"));
             }
+            GateSwitch gateSwitch = (GateSwitch) this.GetLogicalComponent();
+            gateSwitch.ToggleInput(on_off);
+
+            ((Canvas)getParent()).UpdateCanvas();
+
         });
     }
 }

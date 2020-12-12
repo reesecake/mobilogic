@@ -1,15 +1,14 @@
 package org.ecs160.a2;
 
-import com.codename1.io.Util;
 import com.codename1.ui.Component;
 import com.codename1.ui.Container;
 import com.codename1.ui.Graphics;
 import com.codename1.ui.geom.Dimension;
 import com.codename1.ui.plaf.Border;
 
-import java.io.*;
 import java.util.ArrayList;
 
+import java.util.EventListener;
 
 /** Canvas
  *  The class that generates the area to place gates and wires, arranged in a Grid pattern.
@@ -25,7 +24,7 @@ public class Canvas extends Container {
 
     public Canvas() {
         super();
-        circuit = new Circuit();
+        circuit = new Circuit(this);
 
         getStyle().setBgTransparency(255);
         getStyle().setBgColor(0xffffff);
@@ -38,18 +37,24 @@ public class Canvas extends Container {
         setScrollY(5000);
 
         createCells();
-
+      
         name = "";
 
         wires = new ArrayList<>();
-    }
 
+    }
+  
     public String getName() {
         return name;
     }
 
     public void setName(String newName) {
         name = newName;
+    }
+
+    public void UpdateCanvas(){
+        circuit.Update();
+        repaint();
     }
 
     @Override
@@ -93,7 +98,7 @@ public class Canvas extends Container {
     public Component getAddLocation() {
         // x y coordinates are located at top-left of physical device
         // adjust x y to center of display
-        return getClosestComponentTo(getX() + 600, getY() + 1100);
+        return getClosestComponentTo(getX() + 100, getY() + 400);
     }
 
     public void addGate(int idx, Gate gate) {
@@ -160,7 +165,14 @@ public class Canvas extends Container {
         ArrayList<Wire> newWires = new ArrayList<>();
 
         for(Wire wire : wires) {
-            if(!wire.isConnected(i, j)) newWires.add(wire);
+            if(!wire.isConnected(i, j)) {
+                newWires.add(wire);
+            }else{
+                // disconnect logical wire from circuit
+                wire.disconnectGates();
+                circuit.RemoveComponent(wire.getLogicalComponent().GetID());
+                circuit.Update();
+            }
         }
 
         wires = newWires;
@@ -175,6 +187,14 @@ public class Canvas extends Container {
         }
         wires = newWires;
     }
+
+    public void updateWires() {
+        for (Wire wire : wires) {
+            wire.update();
+        }
+        repaint();
+    }
+
     public void deleteComponent(Component component) {
         removeComponent(component);
         if(component instanceof Gate){
